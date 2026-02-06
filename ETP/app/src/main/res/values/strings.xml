@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ETP</string>
+    <string name="title_activity_topactionbar">Topactionbar</string>
+    <string name="title_activity_bottom_nav_bar">BottomNavBar</string>
+</resources>
