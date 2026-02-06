@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CSE 225 Android</string>
+    <string name="title_activity_horizontal_list_example">HorizontalListExample</string>
+    <string name="title_activity_1">Activity1</string>
+    <string name="title_activity_2">ACTIVITY2</string>
+    <string name="title_activity_dashboard">Dashboard</string>
+</resources>
