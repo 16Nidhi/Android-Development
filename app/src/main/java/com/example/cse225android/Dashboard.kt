@@ -46,6 +46,7 @@ class Dashboard : ComponentActivity() {
         setContent {
             CSE225AndroidTheme {
                 Column(modifier = Modifier.fillMaxSize().padding(top = 32.dp)) {
+                    CircularProgressBar()
                     Spinner()
                     ListExample()
                 }
@@ -159,6 +160,7 @@ fun ListExample() {
 fun GreetingPreview4() {
     CSE225AndroidTheme {
         Column {
+            CircularProgressBar()
             Spinner()
             ListExample()
         }

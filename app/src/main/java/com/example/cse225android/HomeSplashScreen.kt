@@ -39,7 +39,7 @@ import androidx.compose.ui.unit.sp
 import com.example.cse225android.ui.theme.CSE225AndroidTheme
 import kotlinx.coroutines.delay
 
-class HomeSplashScreen : ComponentActivity() {
+/*class HomeSplashScreen : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -79,4 +79,4 @@ fun GreetingPreview1() {
     SplashScreen{
 
     }
-}
+}*/

@@ -4,4 +4,12 @@
     <string name="title_activity_1">Activity1</string>
     <string name="title_activity_2">ACTIVITY2</string>
     <string name="title_activity_dashboard">Dashboard</string>
+    <string name="title_activity_rating_bar">RatingBar</string>
+    <string name="title_activity_menu_bar">MenuBar</string>
+    <string name="title_activity_3">ACTIVITY3</string>
+    <string name="title_activity_activity3_menu_bar">Activity3MenuBar</string>
+    <string name="title_activity_activity3_spinner">Activity3Spinner</string>
+    <string name="title_activity_activity3_grids">Activity3Grids</string>
+    <string name="title_activity_activity3_rating_bar">Activity3RatingBar</string>
+    <string name="title_activity_activity3_last_screen">Activity3LastScreen</string>
 </resources>
