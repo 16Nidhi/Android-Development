@@ -12,4 +12,6 @@
     <string name="title_activity_activity3_grids">Activity3Grids</string>
     <string name="title_activity_activity3_rating_bar">Activity3RatingBar</string>
     <string name="title_activity_activity3_last_screen">Activity3LastScreen</string>
+    <string name="title_activity_pending_intent">PendingIntent</string>
+    <string name="title_activity_button_receiver">ButtonReceiver</string>
 </resources>

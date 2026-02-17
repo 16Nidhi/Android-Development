@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -13,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -62,24 +64,30 @@ fun SplashScreen(onTimeout: () -> Unit) {
         onTimeout()
     }
     Box(
-        modifier = Modifier.fillMaxSize().background(Color.White),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF2196F3)), // Blue background
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Icon(
-                imageVector = Icons.Default.Face, 
-                contentDescription = "Logo",
-                modifier = Modifier.size(100.dp),
-                tint = Color(0xFF6200EE)
+            Image(
+                painter = painterResource(id = R.drawable.cap),
+                contentDescription = "Graduation Cap Logo",
+                modifier = Modifier.size(120.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Campus Feedback App",
                 fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = Color.White
             )
             Spacer(modifier = Modifier.height(24.dp))
-            Text(text = "loading...", fontSize = 16.sp, color = Color.Gray)
+            Text(
+                text = "Loading...",
+                fontSize = 16.sp,
+                color = Color.White.copy(alpha = 0.7f)
+            )
         }
     }
 }

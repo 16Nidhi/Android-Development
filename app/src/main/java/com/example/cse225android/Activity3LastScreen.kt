@@ -40,7 +40,14 @@ fun SuccessScreen(onReset: () -> Unit) {
     }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text(if (isSubmitting) "submitting" else "Success") }) }
+        topBar = {
+            TopAppBar(
+                title = { Text(if (isSubmitting) "Submitting" else "Success", color = Color.White) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFF1976D2)
+                )
+            )
+        }
     ) { padding ->
         Column(
             modifier = Modifier.padding(padding).fillMaxSize(),
@@ -48,7 +55,10 @@ fun SuccessScreen(onReset: () -> Unit) {
             verticalArrangement = Arrangement.Center
         ) {
             if (isSubmitting) {
-                CircularProgressIndicator(modifier = Modifier.size(64.dp))
+                CircularProgressIndicator(
+                    modifier = Modifier.size(64.dp),
+                    color = Color(0xFF1976D2)
+                )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text("Submitting...")
             } else {
@@ -60,12 +70,15 @@ fun SuccessScreen(onReset: () -> Unit) {
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "feedback submitted successfully.",
+                    text = "Feedback submitted successfully.",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(32.dp))
-                Button(onClick = onReset) {
+                Button(
+                    onClick = onReset,
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1976D2))
+                ) {
                     Text("Go to Home")
                 }
             }

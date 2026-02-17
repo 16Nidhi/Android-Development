@@ -44,7 +44,14 @@ fun DepartmentScreen(onGiveFeedback: () -> Unit) {
     )
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Campus Feedback Bar") }) }
+        topBar = {
+            TopAppBar(
+                title = { Text("Campus Feedback Bar", color = Color.White) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFF1976D2)
+                )
+            )
+        }
     ) { padding ->
         Column(modifier = Modifier.padding(padding).fillMaxSize().padding(16.dp)) {
             Box(modifier = Modifier.fillMaxWidth()) {
@@ -87,7 +94,10 @@ fun DepartmentScreen(onGiveFeedback: () -> Unit) {
                                 Text(text = staff.first, fontWeight = FontWeight.Bold, fontSize = 18.sp)
                                 Text(text = "Roll: ${staff.second}", color = Color.Gray)
                             }
-                            Button(onClick = onGiveFeedback) {
+                            Button(
+                                onClick = onGiveFeedback,
+                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1976D2))
+                            ) {
                                 Text("Give Feedback")
                             }
                         }

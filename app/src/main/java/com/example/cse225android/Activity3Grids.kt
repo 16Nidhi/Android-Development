@@ -35,7 +35,14 @@ fun SubjectsGridScreen(onNext: () -> Unit) {
     val subjects = listOf("Android", "Java", "Python", "Cloud", "Security", "AI")
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Subjects Grid") }) }
+        topBar = {
+            TopAppBar(
+                title = { Text("Subjects Grid", color = Color.White) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFF1976D2)
+                )
+            )
+        }
     ) { padding ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),

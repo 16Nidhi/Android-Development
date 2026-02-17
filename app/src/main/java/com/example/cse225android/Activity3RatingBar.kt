@@ -35,7 +35,14 @@ fun RatingScreen(onSubmit: () -> Unit) {
     var rating by remember { mutableFloatStateOf(4.5f) }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("give feedback") }) }
+        topBar = {
+            TopAppBar(
+                title = { Text("Give feedback", color = Color.White) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFF1976D2)
+                )
+            )
+        }
     ) { padding ->
         Column(
             modifier = Modifier.padding(padding)
@@ -44,7 +51,7 @@ fun RatingScreen(onSubmit: () -> Unit) {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "rate this course",
+                text = "Rate this course",
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Medium
             )
@@ -63,11 +70,15 @@ fun RatingScreen(onSubmit: () -> Unit) {
             }
 
             Spacer(modifier = Modifier.height(24.dp))
-            Button(onClick = onSubmit, modifier = Modifier.fillMaxWidth(0.6f)) {
-                Text("submit")
+            Button(
+                onClick = onSubmit,
+                modifier = Modifier.fillMaxWidth(0.6f),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1976D2))
+            ) {
+                Text("Submit")
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "rating $rating", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            Text(text = "Rating $rating", fontSize = 20.sp, fontWeight = FontWeight.Bold)
         }
     }
 }

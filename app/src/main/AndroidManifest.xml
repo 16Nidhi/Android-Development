@@ -12,10 +12,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CSE225Android">
 
+        <receiver
+            android:name=".ButtonReceiver"
+            android:exported="true" />
+
         <activity
-            android:name=".HomeSplashScreen"
+            android:name=".PendingIntentActivity"
             android:exported="true"
-            android:theme="@style/Theme.CSE225Android">
+            android:label="@string/title_activity_pending_intent"
+            android:theme="@style/Theme.CSE225Android" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -23,63 +28,67 @@
         </activity>
 
         <activity
+            android:name=".HomeSplashScreen"
+            android:exported="false"
+            android:theme="@style/Theme.CSE225Android"/>
+        <activity
             android:name=".Activity3LastScreen"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_activity3_last_screen"
             android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".Activity3RatingBar"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_activity3_rating_bar"
             android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".Activity3Grids"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_activity3_grids"
             android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".Activity3Spinner"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_activity3_spinner"
             android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".Activity3MenuBar"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_activity3_menu_bar"
             android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".ACTIVITY3"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_3"
             android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".MenuBar"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_menu_bar"
-            android:theme="@style/Theme.CSE225Android"/>
+            android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".RatingBar"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_rating_bar"
             android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".Dashboard"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".ACTIVITY2"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_2"
             android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".ACTIVITY1"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_1"
             android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.CSE225Android" />
     </application>
