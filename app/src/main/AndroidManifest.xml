@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,26 +14,35 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CSE225Android">
-
-        <receiver
-            android:name=".ButtonReceiver"
-            android:exported="true" />
-
         <activity
-            android:name=".PendingIntentActivity"
+            android:name=".LoginPage"
+            android:exported="false"
+            android:label="@string/title_activity_login_page"
+            android:theme="@style/Theme.CSE225Android" />
+        <activity
+            android:name=".ProjectAlarm"
             android:exported="true"
-            android:label="@string/title_activity_pending_intent"
-            android:theme="@style/Theme.CSE225Android" >
+            android:label="@string/title_activity_project_alarm"
+            android:theme="@style/Theme.CSE225Android">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <receiver
+            android:name=".AlarmReceiver"
+            android:exported="true" />
+        <receiver
+            android:name=".ButtonReceiver"
+            android:exported="false" />
+
         <activity
-            android:name=".HomeSplashScreen"
+            android:name=".PendingIntentActivity"
             android:exported="false"
-            android:theme="@style/Theme.CSE225Android"/>
+            android:label="@string/title_activity_pending_intent"
+            android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".Activity3LastScreen"
             android:exported="false"

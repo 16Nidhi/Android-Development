@@ -14,4 +14,7 @@
     <string name="title_activity_activity3_last_screen">Activity3LastScreen</string>
     <string name="title_activity_pending_intent">PendingIntent</string>
     <string name="title_activity_button_receiver">ButtonReceiver</string>
+    <string name="title_activity_alarm_receiver">AlarmReceiver</string>
+    <string name="title_activity_project_alarm">ProjectAlarm</string>
+    <string name="title_activity_login_page">LoginPage</string>
 </resources>
