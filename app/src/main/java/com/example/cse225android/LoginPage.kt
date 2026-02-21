@@ -104,11 +104,11 @@ fun LoginScreen() {
 
 
         val registerText = buildAnnotatedString {
-            append("new user ")
+            append("New user ")
             withStyle(style = SpanStyle(color = Color.Blue, fontWeight = FontWeight.Bold)) {
-                append("register")
+                append("Register")
             }
-            append(" here....")
+            append(" here.")
         }
 
         Text(
@@ -130,6 +130,7 @@ fun LoginScreen() {
         )
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
