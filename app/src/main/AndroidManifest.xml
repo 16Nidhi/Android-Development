@@ -27,7 +27,7 @@
         </activity>
         <activity
             android:name=".ProjectAlarm"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_project_alarm"
             android:theme="@style/Theme.CSE225Android"/>
 
@@ -72,7 +72,7 @@
             android:name=".ACTIVITY3"
             android:exported="false"
             android:label="@string/title_activity_3"
-            android:theme="@style/Theme.CSE225Android" />
+            android:theme="@style/Theme.CSE225Android"/>
         <activity
             android:name=".MenuBar"
             android:exported="false"

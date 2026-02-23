@@ -18,11 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,17 +30,11 @@ class LoginPage : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CSE225AndroidTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    LoginScreen()
+                      LoginScreen()
                 }
             }
         }
     }
-}
-
 @Composable
 fun LoginScreen() {
     var username by remember { mutableStateOf("") }
@@ -51,10 +42,13 @@ fun LoginScreen() {
     val context = LocalContext.current
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(24.dp),
+        modifier = Modifier.fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+
         Box(
             modifier = Modifier.size(120.dp).clip(CircleShape).background(Color.LightGray),
             contentAlignment = Alignment.Center
@@ -91,6 +85,7 @@ fun LoginScreen() {
 
         Spacer(modifier = Modifier.height(24.dp))
 
+
         Button(
             onClick = {
                 Toast.makeText(context, "Logged in successfully", Toast.LENGTH_SHORT).show()
@@ -102,27 +97,24 @@ fun LoginScreen() {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-
-        val registerText = buildAnnotatedString {
-            append("New user ")
-            withStyle(style = SpanStyle(color = Color.Blue, fontWeight = FontWeight.Bold)) {
-                append("Register")
-            }
-            append(" here.")
-        }
-
-        Text(
-            text = registerText,
+        Row(
             modifier = Modifier.clickable {
                 Toast.makeText(context, "Redirecting to Register...", Toast.LENGTH_SHORT).show()
             }
-        )
+        ) {
+            Text(text = "New user ")
+            Text(
+                text = "Register",
+                color = Color.Blue,
+                fontWeight = FontWeight.Bold
+            )
+            Text(text = " here.")
+        }
 
         Spacer(modifier = Modifier.height(12.dp))
 
-
         Text(
-            text = "forgot password",
+            text = "Forgot password ?",
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.clickable {
                 Toast.makeText(context, "Redirecting to Forgot Password...", Toast.LENGTH_SHORT).show()
@@ -130,7 +122,6 @@ fun LoginScreen() {
         )
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
