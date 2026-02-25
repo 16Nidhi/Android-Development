@@ -51,6 +51,7 @@ fun scheduleJob(context: Context){
     val jobInfo = JobInfo.Builder(1, componentName)
         .setMinimumLatency(5000)  //5 secs delay
         .build()
+
     val jobScheduler = context.getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
     jobScheduler.schedule(jobInfo)
 

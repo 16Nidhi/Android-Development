@@ -15,9 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CSE225Android">
         <activity
-            android:name=".ProjectJobScheduler"
+            android:name=".ACTIVITY4SecondScreen"
             android:exported="true"
-            android:label="@string/title_activity_project_job_scheduler"
+            android:label="@string/title_activity_activity4_second_screen"
+            android:theme="@style/Theme.CSE225Android" />
+        <activity
+            android:name=".ACTIVITY4"
+            android:exported="true"
+            android:label="@string/title_activity_4"
             android:theme="@style/Theme.CSE225Android">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,14 +30,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ProjectJobScheduler"
+            android:exported="true"
+            android:label="@string/title_activity_project_job_scheduler"
+            android:theme="@style/Theme.CSE225Android"/>
+
         <service
             android:name=".MyJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
+
         <activity
             android:name=".LoginPage"
             android:exported="false"
             android:label="@string/title_activity_login_page"
-            android:theme="@style/Theme.CSE225Android"/>
+            android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".ProjectAlarm"
             android:exported="false"
