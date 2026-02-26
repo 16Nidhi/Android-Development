@@ -15,26 +15,30 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CSE225Android">
         <activity
-            android:name=".ACTIVITY4SecondScreen"
+            android:name=".ProjectDatePicker"
             android:exported="true"
-            android:label="@string/title_activity_activity4_second_screen"
-            android:theme="@style/Theme.CSE225Android" />
-        <activity
-            android:name=".ACTIVITY4"
-            android:exported="true"
-            android:label="@string/title_activity_4"
+            android:label="@string/title_activity_project_date_picker"
             android:theme="@style/Theme.CSE225Android">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ProjectJobScheduler"
-            android:exported="true"
-            android:label="@string/title_activity_project_job_scheduler"
+            android:name=".ACTIVITY4SecondScreen"
+            android:exported="false"
+            android:label="@string/title_activity_activity4_second_screen"
+            android:theme="@style/Theme.CSE225Android" />
+        <activity
+            android:name=".ACTIVITY4"
+            android:exported="false"
+            android:label="@string/title_activity_4"
             android:theme="@style/Theme.CSE225Android"/>
+        <activity
+            android:name=".ProjectJobScheduler"
+            android:exported="false"
+            android:label="@string/title_activity_project_job_scheduler"
+            android:theme="@style/Theme.CSE225Android" />
 
         <service
             android:name=".MyJobService"

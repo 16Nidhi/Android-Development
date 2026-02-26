@@ -20,4 +20,5 @@
     <string name="title_activity_project_job_scheduler">ProjectJobScheduler</string>
     <string name="title_activity_4">ACTIVITY4</string>
     <string name="title_activity_activity4_second_screen">ACTIVITY4SecondScreen</string>
+    <string name="title_activity_project_date_picker">ProjectDatePicker</string>
 </resources>
