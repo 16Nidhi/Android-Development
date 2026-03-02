@@ -30,11 +30,18 @@ class LoginPage : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CSE225AndroidTheme {
-                      LoginScreen()
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = Color(0xFFE1F5FE) // Light Sky Blue background
+                ) {
+                    LoginScreen()
                 }
             }
         }
     }
+}
+
 @Composable
 fun LoginScreen() {
     var username by remember { mutableStateOf("") }
@@ -42,19 +49,36 @@ fun LoginScreen() {
     val context = LocalContext.current
 
     Column(
-        modifier = Modifier.fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+        modifier = Modifier
+            .fillMaxSize()
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
 
         Box(
-            modifier = Modifier.size(120.dp).clip(CircleShape).background(Color.LightGray),
+            modifier = Modifier
+                .size(120.dp)
+                .clip(CircleShape)
+                .background(Color.White),
             contentAlignment = Alignment.Center
         ) {
-            Text(text = "Image", color = Color.DarkGray)
+            Icon(
+                imageVector = Icons.Default.Person,
+                contentDescription = null,
+                modifier = Modifier.size(60.dp),
+                tint = Color.Gray
+            )
         }
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        Text(
+            text = "Welcome Back",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF01579B)
+        )
 
         Spacer(modifier = Modifier.height(32.dp))
 
@@ -66,7 +90,11 @@ fun LoginScreen() {
                 Icon(imageVector = Icons.Default.Person, contentDescription = "User Icon")
             },
             modifier = Modifier.fillMaxWidth(),
-            singleLine = true
+            singleLine = true,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+            )
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -80,19 +108,29 @@ fun LoginScreen() {
             },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth(),
-            singleLine = true
+            singleLine = true,
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+            )
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
-
         Button(
             onClick = {
-                Toast.makeText(context, "Logged in successfully", Toast.LENGTH_SHORT).show()
+                if (username.isNotEmpty() && password.isNotEmpty()) {
+                    Toast.makeText(context, "Logged in successfully", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Please enter credentials", Toast.LENGTH_SHORT).show()
+                }
             },
-            modifier = Modifier.fillMaxWidth().height(50.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0288D1))
         ) {
-            Text("Login", fontSize = 18.sp)
+            Text("Login", fontSize = 18.sp, color = Color.White)
         }
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -105,7 +143,7 @@ fun LoginScreen() {
             Text(text = "New user ")
             Text(
                 text = "Register",
-                color = Color.Blue,
+                color = Color(0xFF01579B),
                 fontWeight = FontWeight.Bold
             )
             Text(text = " here.")
@@ -115,7 +153,7 @@ fun LoginScreen() {
 
         Text(
             text = "Forgot password ?",
-            color = MaterialTheme.colorScheme.primary,
+            color = Color(0xFF01579B),
             modifier = Modifier.clickable {
                 Toast.makeText(context, "Redirecting to Forgot Password...", Toast.LENGTH_SHORT).show()
             }
@@ -127,6 +165,11 @@ fun LoginScreen() {
 @Composable
 fun LoginScreenPreview() {
     CSE225AndroidTheme {
-        LoginScreen()
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Color(0xFFE1F5FE)
+        ) {
+            LoginScreen()
+        }
     }
 }

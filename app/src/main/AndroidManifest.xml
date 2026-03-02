@@ -15,13 +15,17 @@
         android:theme="@style/Theme.CSE225Android">
 
         <activity
-            android:name=".ProjectAlarm"
+            android:name=".LoginPage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ProjectAlarm"
+            android:exported="false" />
 
         <receiver android:name=".AlarmReceiver" android:exported="false" />
         <receiver android:name=".SnoozeReceiver" android:exported="false" />
