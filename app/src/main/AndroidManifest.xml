@@ -13,22 +13,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CSE225Android">
-
         <activity
-            android:name=".LoginPage"
-            android:exported="true">
+            android:name=".NotificationProject"
+            android:exported="true"
+            android:label="Notification Demo"
+            android:theme="@style/Theme.CSE225Android">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".LoginPage"
+            android:exported="false">
+        </activity>
         <activity
             android:name=".ProjectAlarm"
             android:exported="false" />
 
-        <receiver android:name=".AlarmReceiver" android:exported="false" />
-        <receiver android:name=".SnoozeReceiver" android:exported="false" />
-
+        <receiver
+            android:name=".AlarmReceiver"
+            android:exported="false" />
+        <receiver
+            android:name=".SnoozeReceiver"
+            android:exported="false" />
     </application>
+
 </manifest>
