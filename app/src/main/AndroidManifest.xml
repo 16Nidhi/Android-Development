@@ -14,19 +14,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CSE225Android">
         <activity
-            android:name=".NotificationProject"
+            android:name=".ACTIVITY5"
             android:exported="true"
-            android:label="Notification Demo"
+            android:label="@string/title_activity_5"
             android:theme="@style/Theme.CSE225Android">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
+            android:name=".NotificationProject"
+            android:exported="false"
+            android:label="Notification Demo"
+            android:theme="@style/Theme.CSE225Android"/>
+        <activity
             android:name=".LoginPage"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".ProjectAlarm"
             android:exported="false" />

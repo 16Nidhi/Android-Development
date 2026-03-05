@@ -22,4 +22,5 @@
     <string name="title_activity_activity4_second_screen">ACTIVITY4SecondScreen</string>
     <string name="title_activity_project_date_picker">ProjectDatePicker</string>
     <string name="title_activity_notification_project">NotificationProject</string>
+    <string name="title_activity_5">ACTIVITY5</string>
 </resources>
