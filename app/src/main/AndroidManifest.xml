@@ -14,10 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CSE225Android">
         <activity
-            android:name=".ACTIVITY5"
+            android:name=".Adiist_screen"
             android:exported="true"
-            android:label="@string/title_activity_5"
-            android:theme="@style/Theme.CSE225Android">
+            android:label="@string/title_activity_adiist_screen"
+            android:theme="@style/Theme.CSE225Android" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,13 +26,38 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ACTIVITY3"
+            android:exported="true">
+
+        </activity>
+        <activity
+            android:name=".Activity3Spinner"
+            android:exported="false" />
+        <activity
+            android:name=".Activity3MenuBar"
+            android:exported="false" />
+        <activity
+            android:name=".Activity3Grids"
+            android:exported="false" />
+        <activity
+            android:name=".Activity3RatingBar"
+            android:exported="false" />
+        <activity
+            android:name=".Activity3LastScreen"
+            android:exported="false" />
+        <activity
+            android:name=".ACTIVITY5"
+            android:exported="true"
+            android:label="@string/title_activity_5"
+            android:theme="@style/Theme.CSE225Android" />
+        <activity
             android:name=".NotificationProject"
             android:exported="false"
             android:label="Notification Demo"
-            android:theme="@style/Theme.CSE225Android"/>
+            android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".LoginPage"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".ProjectAlarm"
             android:exported="false" />

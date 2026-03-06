@@ -22,7 +22,6 @@ import kotlinx.coroutines.delay
 class ACTIVITY2 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             CSE225AndroidTheme {
                 Splash {
@@ -33,7 +32,6 @@ class ACTIVITY2 : ComponentActivity() {
         }
     }
 }
-
 @Composable
 fun Splash(onTimeout: () -> Unit) {
     LaunchedEffect(Unit) {
