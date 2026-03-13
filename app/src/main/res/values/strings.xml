@@ -24,4 +24,8 @@
     <string name="title_activity_notification_project">NotificationProject</string>
     <string name="title_activity_5">ACTIVITY5</string>
     <string name="title_activity_adiist_screen">Adiist_screen</string>
+    <string name="title_activity_notification_app1">NotificationApp1</string>
+    <string name="title_activity_material_foundation_example">MaterialFoundationExample</string>
+    <string name="title_activity_nested_scroll">NestedScroll</string>
+    <string name="title_activity_6">ACTIVITY6</string>
 </resources>
