@@ -55,7 +55,6 @@ class NotificationProject : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         createNotificationChannel()
-        enableEdgeToEdge()
         setContent {
             CSE225AndroidTheme {
                 MainApp()

@@ -31,19 +31,9 @@
             android:label="@string/title_activity_6"
             android:theme="@style/Theme.CSE225Android" />
         <activity
-            android:name=".NestedScroll"
-            android:exported="false"
-            android:label="@string/title_activity_nested_scroll"
-            android:theme="@style/Theme.CSE225Android" />
-        <activity
             android:name=".MaterialFoundationExample"
             android:exported="false"
             android:label="@string/title_activity_material_foundation_example"
-            android:theme="@style/Theme.CSE225Android" />
-        <activity
-            android:name=".NotificationApp1"
-            android:exported="false"
-            android:label="@string/title_activity_notification_app1"
             android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".ACTIVITY3"
