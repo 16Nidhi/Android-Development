@@ -4,16 +4,20 @@ import android.app.*
 import android.content.*
 import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.*
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -21,9 +25,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -65,8 +72,9 @@ class ACTIVITY6 : ComponentActivity() {
                             .padding(p).background(
                                 Brush.verticalGradient(
                                     colors = listOf(
-                                        Color(0xFF1A237E), 
-                                        MaterialTheme.colorScheme.surface
+                                        Color(0xFF0D1B2A), 
+                                        Color(0xFF1B263B),
+                                        Color(0xFF415A77)
                                     )
                                 )
                             )
@@ -74,7 +82,11 @@ class ACTIVITY6 : ComponentActivity() {
                         AnimatedContent(
                             targetState = step,
                             transitionSpec = {
-                                fadeIn() togetherWith fadeOut()
+                                if (targetState > initialState) {
+                                    (slideInHorizontally { it } + fadeIn()).togetherWith(slideOutHorizontally { -it } + fadeOut())
+                                } else {
+                                    (slideInHorizontally { -it } + fadeIn()).togetherWith(slideOutHorizontally { it } + fadeOut())
+                                }.using(SizeTransform(clip = false))
                             },
                             label = "ScreenTransition"
                         ) { targetStep ->
@@ -161,7 +173,21 @@ class ACTIVITY6 : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun GlassCard(
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Column(
+        modifier = modifier
+            .shadow(10.dp, RoundedCornerShape(24.dp))
+            .background(Color.White.copy(alpha = 0.15f), RoundedCornerShape(24.dp))
+            .border(1.dp, Color.White.copy(alpha = 0.2f), RoundedCornerShape(24.dp))
+            .padding(16.dp),
+        content = content
+    )
+}
+
 @Composable
 fun TaskAndTimeSelection(
     selectedTask: String, onTaskChange: (String) -> Unit,
@@ -169,61 +195,79 @@ fun TaskAndTimeSelection(
     times: List<String>, selectedTimes: MutableList<String>,
     onNext: () -> Unit
 ) {
-    val tasks = listOf("Wake me up", "Medicine", "Study", "Work", "Exercise", "Other")
-    var expanded by remember { mutableStateOf(false) }
+    val tasks = listOf(
+        "Wake me up" to Icons.Default.Alarm,
+        "Medicine" to Icons.Default.MedicalServices,
+        "Study" to Icons.Default.MenuBook,
+        "Work" to Icons.Default.Work,
+        "Exercise" to Icons.Default.FitnessCenter,
+        "Other" to Icons.Default.MoreHoriz
+    )
 
     Column(Modifier.fillMaxSize().padding(24.dp)) {
         Text(
             "Set Your Routine", 
-            fontSize = 32.sp, 
+            fontSize = 34.sp, 
             fontWeight = FontWeight.ExtraBold,
-            color = Color.White
+            color = Color.White,
+            letterSpacing = (-1).sp
         )
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(24.dp))
         
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)),
-            shape = RoundedCornerShape(20.dp),
-            elevation = CardDefaults.cardElevation(8.dp)
+        Text("Select Category", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = Color.White.copy(alpha = 0.7f))
+        Spacer(Modifier.height(12.dp))
+        
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(horizontal = 4.dp)
         ) {
-            Column(Modifier.padding(16.dp)) {
-                Text("Select Task", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-                Spacer(Modifier.height(8.dp))
-                
-                ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = it }) {
-                    OutlinedTextField(
-                        value = selectedTask, onValueChange = {}, readOnly = true,
-                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                        modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true).fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp)
+            items(tasks) { (name, icon) ->
+                val isSelected = selectedTask == name
+                Column(
+                    modifier = Modifier
+                        .width(90.dp)
+                        .clip(RoundedCornerShape(20.dp))
+                        .background(if (isSelected) Color.White else Color.White.copy(alpha = 0.1f))
+                        .clickable { onTaskChange(name) }
+                        .padding(12.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        icon, 
+                        contentDescription = null, 
+                        tint = if (isSelected) Color(0xFF1B263B) else Color.White,
+                        modifier = Modifier.size(28.dp)
                     )
-                    ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
-                        tasks.forEach { task ->
-                            DropdownMenuItem(
-                                text = { Text(task) }, 
-                                onClick = {
-                                    onTaskChange(task)
-                                    expanded = false
-                                }
-                            )
-                        }
-                    }
-                }
-
-                if (selectedTask == "Other") {
-                    Spacer(Modifier.height(12.dp))
-                    OutlinedTextField(
-                        value = otherTask, onValueChange = onOtherChange,
-                        label = { Text("Custom Task Name") }, 
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp)
+                    Spacer(Modifier.height(8.dp))
+                    Text(
+                        name, 
+                        fontSize = 12.sp, 
+                        fontWeight = FontWeight.Bold,
+                        color = if (isSelected) Color(0xFF1B263B) else Color.White,
+                        maxLines = 1,
+                        textAlign = TextAlign.Center
                     )
                 }
             }
         }
 
-        Spacer(Modifier.height(24.dp))
+        if (selectedTask == "Other") {
+            Spacer(Modifier.height(16.dp))
+            OutlinedTextField(
+                value = otherTask, onValueChange = onOtherChange,
+                label = { Text("Custom Task Name", color = Color.White.copy(alpha = 0.6f)) }, 
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+                    focusedBorderColor = Color.White,
+                    unfocusedBorderColor = Color.White.copy(alpha = 0.3f)
+                )
+            )
+        }
+
+        Spacer(Modifier.height(32.dp))
         Text("Choose Timings", fontSize = 18.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
         Spacer(Modifier.height(12.dp))
 
@@ -231,25 +275,34 @@ fun TaskAndTimeSelection(
             modifier = Modifier.weight(1f),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            items(times) { time ->
+            itemsIndexed(times) { index, time ->
                 val isSelected = selectedTimes.contains(time)
-                Surface(
-                    onClick = { 
-                        if (isSelected) selectedTimes.remove(time) 
-                        else selectedTimes.add(time) 
-                    },
-                    shape = RoundedCornerShape(12.dp),
-                    color = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface.copy(alpha = 0.8f),
-                    tonalElevation = if (isSelected) 4.dp else 0.dp
+                
+                // Entrance animation
+                val animatedAlpha by animateFloatAsState(
+                    targetValue = 1f,
+                    animationSpec = tween(durationMillis = 500, delayMillis = index * 20),
+                    label = "alpha"
+                )
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .graphicsLayer { alpha = animatedAlpha }
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(if (isSelected) Color.White.copy(alpha = 0.3f) else Color.White.copy(alpha = 0.1f))
+                        .border(1.dp, if (isSelected) Color.White else Color.Transparent, RoundedCornerShape(16.dp))
+                        .clickable { 
+                            if (isSelected) selectedTimes.remove(time) 
+                            else selectedTimes.add(time) 
+                        }
+                        .padding(16.dp)
                 ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.Schedule,
                             contentDescription = null,
-                            tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                            tint = if (isSelected) Color.White else Color.White.copy(alpha = 0.5f)
                         )
                         Spacer(Modifier.width(16.dp))
                         Text(
@@ -257,16 +310,11 @@ fun TaskAndTimeSelection(
                             Modifier.weight(1f),
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
                             fontSize = 18.sp,
-                            color = if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface
+                            color = Color.White
                         )
-                        Switch(
-                            checked = isSelected, 
-                            onCheckedChange = { 
-                                if (it) selectedTimes.add(time) 
-                                else selectedTimes.remove(time) 
-                            },
-                            modifier = Modifier.scale(0.9f)
-                        )
+                        if (isSelected) {
+                            Icon(Icons.Default.CheckCircle, null, tint = Color.White)
+                        }
                     }
                 }
             }
@@ -275,10 +323,14 @@ fun TaskAndTimeSelection(
         Spacer(Modifier.height(16.dp))
         Button(
             onClick = onNext, 
-            modifier = Modifier.fillMaxWidth().height(60.dp), 
+            modifier = Modifier.fillMaxWidth().height(64.dp), 
             enabled = selectedTimes.isNotEmpty(),
-            shape = RoundedCornerShape(20.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+            shape = RoundedCornerShape(24.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color.White,
+                contentColor = Color(0xFF1B263B),
+                disabledContainerColor = Color.White.copy(alpha = 0.3f)
+            )
         ) {
             Text("Review Selection", fontSize = 18.sp, fontWeight = FontWeight.Bold)
         }
@@ -291,10 +343,12 @@ fun ConfirmationScreen(task: String, times: List<String>, onAddCustom: () -> Uni
         Modifier.fillMaxSize().padding(24.dp), 
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Spacer(Modifier.height(40.dp))
         Box(
             modifier = Modifier
                 .size(100.dp)
-                .background(Color.White.copy(alpha = 0.2f), RoundedCornerShape(30.dp)),
+                .background(Color.White.copy(alpha = 0.2f), CircleShape)
+                .border(2.dp, Color.White.copy(alpha = 0.4f), CircleShape),
             contentAlignment = Alignment.Center
         ) {
             Icon(
@@ -306,37 +360,35 @@ fun ConfirmationScreen(task: String, times: List<String>, onAddCustom: () -> Uni
         }
         
         Spacer(Modifier.height(24.dp))
-        Text(task, fontSize = 28.sp, fontWeight = FontWeight.ExtraBold, color = Color.White)
-        Text("Your chosen timings", color = Color.White.copy(alpha = 0.7f), fontSize = 16.sp)
+        Text(task, fontSize = 32.sp, fontWeight = FontWeight.ExtraBold, color = Color.White)
+        Text("Your Schedule", color = Color.White.copy(alpha = 0.7f), fontSize = 16.sp)
         
-        Spacer(Modifier.height(24.dp))
-        LazyColumn(Modifier.weight(1f)) {
-            items(times) { time ->
-                Card(
-                    Modifier.fillMaxWidth().padding(vertical = 6.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.9f))
-                ) {
+        Spacer(Modifier.height(32.dp))
+        
+        GlassCard(modifier = Modifier.weight(1f)) {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                items(times) { time ->
                     Row(
-                        Modifier.padding(20.dp),
+                        Modifier.fillMaxWidth().padding(vertical = 12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(Icons.Default.Schedule, null, tint = Color(0xFF1A237E))
+                        Icon(Icons.Default.AccessTime, null, tint = Color.White.copy(alpha = 0.6f))
                         Spacer(Modifier.width(16.dp))
-                        Text(time, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color(0xFF1A237E))
+                        Text(time, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.White)
                     }
+                    HorizontalDivider(color = Color.White.copy(alpha = 0.1f))
                 }
             }
         }
 
-        Spacer(Modifier.height(16.dp))
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        Spacer(Modifier.height(24.dp))
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             OutlinedButton(
                 onClick = onAddCustom, 
-                Modifier.weight(1f).height(56.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White),
-                border = ButtonDefaults.outlinedButtonBorder.copy(brush = Brush.linearGradient(listOf(Color.White, Color.White)))
+                Modifier.weight(1f).height(60.dp),
+                shape = RoundedCornerShape(20.dp),
+                border = ButtonDefaults.outlinedButtonBorder.copy(brush = Brush.linearGradient(listOf(Color.White, Color.White))),
+                colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White)
             ) { 
                 Icon(Icons.Default.Add, null)
                 Spacer(Modifier.width(8.dp))
@@ -344,9 +396,9 @@ fun ConfirmationScreen(task: String, times: List<String>, onAddCustom: () -> Uni
             }
             Button(
                 onClick = onFinish, 
-                Modifier.weight(1f).height(56.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+                Modifier.weight(1f).height(60.dp),
+                shape = RoundedCornerShape(20.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color(0xFF1B263B))
             ) { 
                 Text("Set Alarms") 
             }
@@ -364,24 +416,20 @@ fun CustomTimePickerScreen(onTimePicked: (String) -> Unit, onBack: () -> Unit) {
         verticalArrangement = Arrangement.Center, 
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ElevatedCard(
-            modifier = Modifier.padding(16.dp),
-            shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.elevatedCardColors(containerColor = MaterialTheme.colorScheme.surface)
-        ) {
+        GlassCard(modifier = Modifier.padding(16.dp)) {
             Column(
-                Modifier.padding(32.dp),
+                Modifier.padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
                     Icons.Default.Timer, 
                     null, 
                     Modifier.size(80.dp), 
-                    MaterialTheme.colorScheme.primary
+                    Color.White
                 )
                 Spacer(Modifier.height(16.dp))
-                Text("Pick a Time", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-                Text("Choose a specific time", color = MaterialTheme.colorScheme.secondary)
+                Text("Pick a Time", fontSize = 26.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                Text("Select your preferred slot", color = Color.White.copy(alpha = 0.7f))
                 Spacer(Modifier.height(32.dp))
                 
                 Button(
@@ -391,14 +439,15 @@ fun CustomTimePickerScreen(onTimePicked: (String) -> Unit, onBack: () -> Unit) {
                             onTimePicked(time)
                         }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show()
                     },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(12.dp)
+                    modifier = Modifier.fillMaxWidth().height(56.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color(0xFF1B263B))
                 ) {
-                    Text("Select Time")
+                    Text("Open Time Picker")
                 }
                 
-                TextButton(onClick = onBack, modifier = Modifier.padding(top = 8.dp)) { 
-                    Text("Cancel", color = MaterialTheme.colorScheme.error) 
+                TextButton(onClick = onBack, modifier = Modifier.padding(top = 12.dp)) { 
+                    Text("Go Back", color = Color.White.copy(alpha = 0.6f)) 
                 }
             }
         }
@@ -407,66 +456,72 @@ fun CustomTimePickerScreen(onTimePicked: (String) -> Unit, onBack: () -> Unit) {
 
 @Composable
 fun FinalSuccessScreen(task: String, times: List<String>, onDone: () -> Unit) {
+    val infiniteTransition = rememberInfiniteTransition(label = "pulse")
+    val scale by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 1.2f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1000, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "scale"
+    )
+
     Column(
         modifier = Modifier.fillMaxSize().padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Box(
-            modifier = Modifier
-                .size(120.dp)
-                .background(Color.White.copy(alpha = 0.2f), RoundedCornerShape(40.dp)),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                Icons.Default.CheckCircle, 
-                null, 
-                Modifier.size(64.dp), 
-                Color(0xFF4CAF50)
+        Box(contentAlignment = Alignment.Center) {
+            // Glow effect
+            Box(
+                modifier = Modifier
+                    .size(140.dp)
+                    .scale(scale)
+                    .background(Color.White.copy(alpha = 0.1f), CircleShape)
             )
+            Box(
+                modifier = Modifier
+                    .size(100.dp)
+                    .background(Color.White, CircleShape)
+                    .shadow(20.dp, CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    Icons.Default.Check, 
+                    null, 
+                    Modifier.size(50.dp), 
+                    Color(0xFF1B263B)
+                )
+            }
         }
         
-        Spacer(Modifier.height(32.dp))
+        Spacer(Modifier.height(40.dp))
         Text(
-            "Reminder Set!", 
-            fontSize = 32.sp, 
+            "All Set!", 
+            fontSize = 36.sp, 
             fontWeight = FontWeight.ExtraBold, 
             color = Color.White
         )
         Text(
-            "You'll be alerted for \"$task\"", 
+            "Alarms scheduled for \"$task\"", 
             fontSize = 18.sp, 
             color = Color.White.copy(alpha = 0.7f),
             textAlign = TextAlign.Center
         )
         
-        Spacer(Modifier.height(32.dp))
-        Text(
-            "Scheduled Times:", 
-            fontSize = 16.sp, 
-            fontWeight = FontWeight.SemiBold, 
-            color = Color.White,
-            modifier = Modifier.align(Alignment.Start)
-        )
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(40.dp))
         
-        LazyColumn(
-            modifier = Modifier.weight(0.5f).fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            items(times) { time ->
-                Surface(
-                    color = Color.White.copy(alpha = 0.15f),
-                    shape = RoundedCornerShape(12.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
+        GlassCard(modifier = Modifier.fillMaxWidth().height(200.dp)) {
+            Text("Active Times", fontWeight = FontWeight.Bold, color = Color.White)
+            Spacer(Modifier.height(8.dp))
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                items(times) { time ->
                     Text(
-                        text = time,
-                        modifier = Modifier.padding(16.dp),
+                        text = "• $time",
                         fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White,
-                        textAlign = TextAlign.Center
+                        fontWeight = FontWeight.Medium,
+                        color = Color.White
                     )
                 }
             }
@@ -475,11 +530,11 @@ fun FinalSuccessScreen(task: String, times: List<String>, onDone: () -> Unit) {
         Spacer(Modifier.height(40.dp))
         Button(
             onClick = onDone,
-            modifier = Modifier.fillMaxWidth().height(60.dp),
-            shape = RoundedCornerShape(20.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+            modifier = Modifier.fillMaxWidth().height(64.dp),
+            shape = RoundedCornerShape(24.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color(0xFF1B263B))
         ) {
-            Text("Great, Thanks!", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            Text("Done", fontSize = 18.sp, fontWeight = FontWeight.Bold)
         }
     }
 }
