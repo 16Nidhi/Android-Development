@@ -95,7 +95,8 @@ class ACTIVITY6 : ComponentActivity() {
                                     selectedTask, { selectedTask = it },
                                     otherTask, { otherTask = it },
                                     predefinedTimes, selectedTimes,
-                                    onNext = { step = 1 }
+                                    onNext = { step = 1 },
+                                    onViewHistory = { step = 4 }
                                 )
                                 1 -> ConfirmationScreen(
                                     task = if (selectedTask == "Other") otherTask else selectedTask,
@@ -123,11 +124,14 @@ class ACTIVITY6 : ComponentActivity() {
                                         selectedTask = "Wake me up"
                                     }
                                 )
+                                4 -> HistoryLogScreen(onBack = { step = 0 })
                             }
                         }
                     }
                 }
-                BackHandler(step > 0 && step != 3) { step-- }
+                BackHandler(step > 0 && step != 3) { 
+                    if (step == 4) step = 0 else step-- 
+                }
             }
         }
     }
@@ -193,7 +197,8 @@ fun TaskAndTimeSelection(
     selectedTask: String, onTaskChange: (String) -> Unit,
     otherTask: String, onOtherChange: (String) -> Unit,
     times: List<String>, selectedTimes: MutableList<String>,
-    onNext: () -> Unit
+    onNext: () -> Unit,
+    onViewHistory: () -> Unit
 ) {
     val tasks = listOf(
         "Wake me up" to Icons.Default.Alarm,
@@ -205,13 +210,22 @@ fun TaskAndTimeSelection(
     )
 
     Column(Modifier.fillMaxSize().padding(24.dp)) {
-        Text(
-            "Set Your Routine", 
-            fontSize = 34.sp, 
-            fontWeight = FontWeight.ExtraBold,
-            color = Color.White,
-            letterSpacing = (-1).sp
-        )
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                "Set Your Routine", 
+                fontSize = 30.sp, 
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.White,
+                letterSpacing = (-1).sp
+            )
+            IconButton(onClick = onViewHistory) {
+                Icon(Icons.Default.History, "History", tint = Color.White)
+            }
+        }
         Spacer(Modifier.height(24.dp))
         
         Text("Select Category", fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = Color.White.copy(alpha = 0.7f))
@@ -535,6 +549,54 @@ fun FinalSuccessScreen(task: String, times: List<String>, onDone: () -> Unit) {
             colors = ButtonDefaults.buttonColors(containerColor = Color.White, contentColor = Color(0xFF1B263B))
         ) {
             Text("Done", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        }
+    }
+}
+
+@Composable
+fun HistoryLogScreen(onBack: () -> Unit) {
+    val context = LocalContext.current
+    val history = remember {
+        val prefs = context.getSharedPreferences("SmartReminderPrefs", Context.MODE_PRIVATE)
+        prefs.getStringSet("history_logs", emptySet())?.toList()?.sortedByDescending { it.split("|").last() } ?: emptyList()
+    }
+
+    Column(Modifier.fillMaxSize().padding(24.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            IconButton(onClick = onBack) {
+                Icon(Icons.Default.ArrowBack, "Back", tint = Color.White)
+            }
+            Text("Activity History", fontSize = 28.sp, fontWeight = FontWeight.Bold, color = Color.White)
+        }
+        
+        Spacer(Modifier.height(24.dp))
+        
+        if (history.isEmpty()) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text("No history yet", color = Color.White.copy(alpha = 0.5f))
+            }
+        } else {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                items(history) { entry ->
+                    val parts = entry.split("|")
+                    val task = parts.getOrNull(0) ?: "Unknown"
+                    val time = parts.getOrNull(1) ?: ""
+                    
+                    GlassCard {
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Column {
+                                Text(task, fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color.White)
+                                Text(time, fontSize = 14.sp, color = Color.White.copy(alpha = 0.6f))
+                            }
+                            Icon(Icons.Default.CheckCircle, null, tint = Color(0xFF4CAF50))
+                        }
+                    }
+                }
+            }
         }
     }
 }
