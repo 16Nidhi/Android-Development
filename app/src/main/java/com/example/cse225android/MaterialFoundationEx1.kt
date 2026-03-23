@@ -4,30 +4,29 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CutCornerShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cse225android.ui.theme.CSE225AndroidTheme
 
-/**
- * Activity demonstrating Custom UI Components in Jetpack Compose.
- * Covers Material & Foundation composables, declarative UI approach, 
- * and creating custom components using parameters, Modifiers, Shapes, and Colors.
- */
 class MaterialFoundationEx1 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +34,7 @@ class MaterialFoundationEx1 : ComponentActivity() {
             CSE225AndroidTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.surface
+                    color = Color(0xFFF8F9FA)
                 ) {
                     CustomComponentScreen()
                 }
@@ -47,144 +46,169 @@ class MaterialFoundationEx1 : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomComponentScreen() {
-    var username by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Compose Custom UI", fontWeight = FontWeight.Bold) },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+            CenterAlignedTopAppBar(
+                title = { 
+                    Text(
+                        "DESIGN SYSTEM", 
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Black,
+                        letterSpacing = 2.sp
+                    ) 
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color.White,
+                    titleContentColor = Color.Black
+                ),
+                modifier = Modifier.shadow(4.dp)
             )
         }
     ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(24.dp),
+            modifier = Modifier.fillMaxSize().padding(paddingValues)
+                .verticalScroll(rememberScrollState()).padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            // 1. CUSTOM TEXT COMPONENT with refined styling
+            // 1. REFINED HEADER
             CustomHeader(
-                text = "Unit 4 Exploration",
-                subtitle = "Mastering Custom Components",
-                primaryColor = MaterialTheme.colorScheme.primary
+                mainTitle = "Welcome Back",
+                subTitle = "Please fill in your details to continue"
             )
 
-            // 2. STYLIZED BOX using Modifiers & Gradients (Custom Shape)
+            // 2. MODERN FEATURE CARD (Custom Shape + Gradient)
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp)
+                modifier = Modifier.fillMaxWidth().height(140.dp)
+                    .clip(RoundedCornerShape(topStart = 40.dp, bottomEnd = 40.dp))
                     .background(
-                        brush = Brush.horizontalGradient(
-                            colors = listOf(Color(0xFF6200EE), Color(0xFF03DAC5))
-                        ),
-                        shape = RoundedCornerShape(20.dp)
+                        brush = Brush.linearGradient(
+                            colors = listOf(Color(0xFF6A11CB), Color(0xFF2575FC))
+                        )
                     )
-                    .border(1.dp, Color.White.copy(alpha = 0.5f), RoundedCornerShape(20.dp)),
-                contentAlignment = Alignment.Center
+                    .padding(24.dp),
+                contentAlignment = Alignment.CenterStart
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Default.Star, contentDescription = null, tint = Color.Yellow)
-                    Spacer(Modifier.width(8.dp))
-                    Text(
-                        "Custom Gradient Card",
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp
-                    )
+                Column {
+                    Text("Premium Access", color = Color.White.copy(alpha = 0.8f), fontSize = 14.sp)
+                    Text("Unlock Custom UI", color = Color.White, fontSize = 22.sp, fontWeight = FontWeight.Bold)
+                    Spacer(Modifier.height(8.dp))
+                    Box(
+                        modifier = Modifier.background(Color.White.copy(alpha = 0.2f), CircleShape)
+                            .padding(horizontal = 12.dp, vertical = 4.dp)
+                    ) {
+                        Text("Active Plan", color = Color.White, fontSize = 10.sp)
+                    }
                 }
             }
 
-            // 3. CUSTOM TEXTFIELD within a Card for better elevation
+            // 3. REUSABLE FORM SECTION (Custom TextField Component)
             Card(
-                shape = RoundedCornerShape(16.dp),
-                elevation = CardDefaults.cardElevation(4.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                shape = RoundedCornerShape(24.dp),
+                elevation = CardDefaults.cardElevation(2.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
-                    Text("User Profile", fontWeight = FontWeight.SemiBold, modifier = Modifier.padding(bottom = 8.dp))
-                    OutlinedTextField(
-                        value = username,
-                        onValueChange = { username = it },
-                        label = { Text("Full Name") },
-                        leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
-                        modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp)
+                Column(
+                    modifier = Modifier.padding(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Text("Your Information", fontWeight = FontWeight.Bold, color = Color.DarkGray)
+                    
+                    CustomInputField(
+                        value = name,
+                        onValueChange = { name = it },
+                        label = "Full Name",
+                        icon = Icons.Default.Person
+                    )
+
+                    CustomInputField(
+                        value = email,
+                        onValueChange = { email = it },
+                        label = "Email Address",
+                        icon = Icons.Default.Email
                     )
                 }
             }
 
-            // 4. CUSTOM BUTTON with parameters & unique shape
-            CustomButton(
-                label = "GET STARTED",
-                backgroundColor = MaterialTheme.colorScheme.primary,
-                shape = CutCornerShape(topStart = 16.dp, bottomEnd = 16.dp),
+            // 4. CALL TO ACTION (Custom Button)
+            CustomActionButton(
+                text = "Proceed to Dashboard",
                 onClick = { /* Action */ }
             )
-            
+
             Text(
-                text = "Fully Declarative Approach",
+                "Version 2.0 • Material 3 Design",
                 style = MaterialTheme.typography.labelSmall,
-                color = Color.Gray
+                color = Color.LightGray
             )
         }
     }
 }
 
 @Composable
-fun CustomHeader(text: String, subtitle: String, primaryColor: Color) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+fun CustomHeader(mainTitle: String, subTitle: String) {
+    Column(horizontalAlignment = Alignment.Start, modifier = Modifier.fillMaxWidth()) {
         Text(
-            text = text,
-            color = primaryColor,
-            fontSize = 30.sp,
+            text = mainTitle,
+            fontSize = 32.sp,
             fontWeight = FontWeight.ExtraBold,
-            letterSpacing = 1.sp
+            color = Color(0xFF1A1A1A)
         )
         Text(
-            text = subtitle,
+            text = subTitle,
+            fontSize = 15.sp,
             color = Color.Gray,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.Normal
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        HorizontalDivider(
-            color = primaryColor.copy(alpha = 0.3f),
-            thickness = 2.dp,
-            modifier = Modifier.width(60.dp)
+        Spacer(modifier = Modifier.height(12.dp))
+        Box(
+            modifier = Modifier.width(40.dp).height(4.dp)
+                .background(Color(0xFF2575FC), RoundedCornerShape(2.dp))
         )
     }
 }
 
+
 @Composable
-fun CustomButton(
+fun CustomInputField(
+    value: String,
+    onValueChange: (String) -> Unit,
     label: String,
-    backgroundColor: Color,
-    shape: Shape,
-    onClick: () -> Unit
+    icon: ImageVector
 ) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text(label) },
+        leadingIcon = { Icon(icon, contentDescription = null, tint = Color(0xFF2575FC)) },
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(16.dp),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedBorderColor = Color(0xFF2575FC),
+            unfocusedBorderColor = Color(0xFFE0E0E0),
+            focusedLabelColor = Color(0xFF2575FC)
+        ),
+        singleLine = true
+    )
+}
+
+@Composable
+fun CustomActionButton(text: String, onClick: () -> Unit) {
     Button(
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(containerColor = backgroundColor),
-        shape = shape,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(56.dp)
-            .padding(horizontal = 8.dp),
-        elevation = ButtonDefaults.buttonElevation(8.dp)
+        modifier = Modifier.fillMaxWidth().height(60.dp)
+            .shadow(12.dp, RoundedCornerShape(20.dp)),
+        shape = RoundedCornerShape(20.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1A1A1A))
     ) {
-        Text(
-            text = label,
-            color = Color.White,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 1.2.sp
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(text, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            Spacer(Modifier.width(8.dp))
+            Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null, modifier = Modifier.size(18.dp))
+        }
     }
 }

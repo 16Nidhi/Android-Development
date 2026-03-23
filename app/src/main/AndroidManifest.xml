@@ -14,6 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CSE225Android">
+
         <activity
             android:name=".NotificationProject"
             android:exported="false"
@@ -87,3 +88,4 @@
     </application>
 
 </manifest>
+
