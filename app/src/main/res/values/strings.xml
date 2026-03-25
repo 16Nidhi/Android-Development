@@ -28,4 +28,5 @@
     <string name="title_activity_material_foundation_example">MaterialFoundationExample</string>
     <string name="title_activity_nested_scroll">NestedScroll</string>
     <string name="title_activity_6">ACTIVITY6</string>
+    <string name="title_activity_navigation_example">NavigationExample</string>
 </resources>
