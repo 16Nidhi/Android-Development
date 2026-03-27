@@ -14,17 +14,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CSE225Android">
+
         <activity
             android:name=".NavigationExample"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_navigation_example"
+            android:theme="@style/Theme.CSE225Android" />
+
+        <activity
+            android:name=".DrawerNavigationExample"
+            android:exported="true"
+            android:label="Drawer &amp; Vertical Pager"
             android:theme="@style/Theme.CSE225Android">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".NotificationProject"
             android:exported="false"
