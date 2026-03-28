@@ -43,6 +43,7 @@ import kotlinx.coroutines.launch
 class NavigationExample : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
             CSE225AndroidTheme {
                 MainContent()
@@ -151,7 +152,6 @@ fun PageItem(page: PageData) {
         )
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable
