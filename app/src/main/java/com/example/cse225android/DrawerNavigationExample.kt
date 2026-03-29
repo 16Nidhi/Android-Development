@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,6 +24,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
@@ -53,7 +53,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -82,13 +81,17 @@ class DrawerNavigationExample : ComponentActivity() {
 fun DrawerAppContent() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    
+
+
     val menuItems = listOf(
-        Pair("Home", Icons.Default.Home),
-        Pair("Trending", Icons.Default.Star),
-        Pair("Notifications", Icons.Default.Notifications),
-        Pair("Settings", Icons.Default.Settings)
+        Triple("Home", Icons.Default.Home, "Welcome to your dashboard"),
+        Triple("Trending", Icons.Default.Star, "See what's popular"),
+        Triple("Notifications", Icons.Default.Notifications, "Stay updated"),
+        Triple("Settings", Icons.Default.Settings, "Manage your account"),
+        Triple("About", Icons.Default.Info, "App information")
     )
+
+    val pagerState = rememberPagerState(pageCount = { menuItems.size })
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -112,8 +115,7 @@ fun DrawerAppContent() {
                             Icons.Default.AccountCircle,
                             contentDescription = null,
                             modifier = Modifier.size(80.dp).clip(CircleShape)
-                                .background(Color.White.copy(alpha = 0.2f))
-                                .padding(8.dp),
+                                .background(Color.White.copy(alpha = 0.2f)).padding(8.dp),
                             tint = Color.White
                         )
                         Spacer(modifier = Modifier.height(12.dp))
@@ -133,11 +135,16 @@ fun DrawerAppContent() {
                 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                menuItems.forEach { (title, icon) ->
+                menuItems.forEachIndexed { index, (title, icon, _) ->
                     NavigationDrawerItem(
                         label = { Text(title, fontWeight = FontWeight.Medium) },
-                        selected = title == "Home",
-                        onClick = { scope.launch { drawerState.close() } },
+                        selected = pagerState.currentPage == index, // Highlights the item if it matches the current page
+                        onClick = { 
+                            scope.launch { 
+                                drawerState.close()
+                                pagerState.animateScrollToPage(index)
+                            } 
+                        },
                         icon = { Icon(icon, contentDescription = null) },
                         modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
                         shape = RoundedCornerShape(12.dp)
@@ -182,8 +189,6 @@ fun DrawerAppContent() {
                 )
             }
         ) { padding ->
-            val pagerState = rememberPagerState(pageCount = { 5 })
-
             Box(
                 modifier = Modifier.fillMaxSize().padding(padding)
                     .background(MaterialTheme.colorScheme.surface)
@@ -195,12 +200,10 @@ fun DrawerAppContent() {
                     beyondViewportPageCount = 1
                 ) { page ->
                     val pageOffset = (pagerState.currentPage - page).absoluteValue
-                    val scale by animateFloatAsState(if (pageOffset == 0) 1f else 0.85f, label = "")
+                    val scale by animateFloatAsState(if (pageOffset == 0) 1f else 0.85f, label = "scale")
                     
                     Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(24.dp)
+                        modifier = Modifier.fillMaxSize().padding(24.dp)
                             .graphicsLayer {
                                 scaleX = scale
                                 scaleY = scale
@@ -208,7 +211,7 @@ fun DrawerAppContent() {
                             },
                         contentAlignment = Alignment.Center
                     ) {
-                        ModernPageContent(page)
+                        ModernPageContent(page, menuItems[page])
                     }
                 }
             }
@@ -217,7 +220,7 @@ fun DrawerAppContent() {
 }
 
 @Composable
-fun ModernPageContent(page: Int) {
+fun ModernPageContent(page: Int, item: Triple<String, ImageVector, String>) {
     val colors = listOf(
         Color(0xFF6750A4), Color(0xFF006A60), Color(0xFFB3261E),
         Color(0xFF3F51B5), Color(0xFFE91E63)
@@ -225,9 +228,7 @@ fun ModernPageContent(page: Int) {
     val color = colors[page % colors.size]
 
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(500.dp),
+        modifier = Modifier.fillMaxWidth().height(500.dp),
         shape = RoundedCornerShape(32.dp),
         elevation = CardDefaults.cardElevation(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
@@ -245,7 +246,7 @@ fun ModernPageContent(page: Int) {
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = Icons.Default.Star,
+                    imageVector = item.second,
                     contentDescription = null,
                     modifier = Modifier.size(120.dp),
                     tint = Color.White
@@ -257,21 +258,21 @@ fun ModernPageContent(page: Int) {
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "FEATURED ITEM #$page",
+                    text = "FEATURED ITEM #${page + 1}",
                     style = MaterialTheme.typography.labelLarge,
                     color = color,
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Explore Modern UI Components",
+                    text = item.first,
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color.Black
                 )
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    text = "This VerticalPager demonstrates advanced navigation concepts from your syllabus with smooth animations and professional styling.",
+                    text = item.third,
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.Gray
                 )
