@@ -14,30 +14,48 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CSE225Android">
-
         <activity
-            android:name=".FlashcardApp"
+            android:name=".IntentActivity1"
             android:exported="true"
-            android:label="Flashcard Study App"
+            android:label="@string/title_activity_intent1"
             android:theme="@style/Theme.CSE225Android">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".IntentActivity2"
+            android:exported="true"
+            android:theme="@style/Theme.CSE225Android" />
+        <activity
+            android:name=".IntentActivity3"
+            android:exported="true"
+            android:theme="@style/Theme.CSE225Android" />
+        <activity
+            android:name=".IntentActivity4"
+            android:exported="true"
+            android:theme="@style/Theme.CSE225Android" />
+        <activity
+            android:name=".IntentActivity5"
+            android:exported="true"
+            android:theme="@style/Theme.CSE225Android" />
+        <activity
+            android:name=".FlashcardApp"
+            android:exported="false"
+            android:label="Flashcard Study App"
+            android:theme="@style/Theme.CSE225Android">
+        </activity>
         <activity
             android:name=".DrawerNavigationExample"
             android:exported="false"
             android:label="Drawer &amp; Vertical Pager"
             android:theme="@style/Theme.CSE225Android" />
-
         <activity
             android:name=".NavigationExample"
             android:exported="false"
             android:label="@string/title_activity_navigation_example"
             android:theme="@style/Theme.CSE225Android" />
-
         <activity
             android:name=".NotificationProject"
             android:exported="false"
@@ -47,12 +65,12 @@
             android:name=".ACTIVITY6"
             android:exported="false"
             android:label="@string/title_activity_6"
-            android:theme="@style/Theme.CSE225Android"></activity>
+            android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".MaterialFoundationEx1"
             android:exported="false"
             android:label="Material Foundation Ex1"
-            android:theme="@style/Theme.CSE225Android"/>
+            android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".MaterialFoundationExample"
             android:exported="false"

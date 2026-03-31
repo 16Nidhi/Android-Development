@@ -31,7 +31,6 @@ class FlashcardApp : ComponentActivity() {
         }
     }
 }
-
 data class Subject(val name: String, val info: List<String>, val quiz: List<String>)
 
 @OptIn(ExperimentalMaterial3Api::class)
