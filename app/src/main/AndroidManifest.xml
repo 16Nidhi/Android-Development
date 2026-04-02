@@ -2,124 +2,29 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="CSE225Android"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CSE225Android">
         <activity
-            android:name=".IntentActivity1"
+            android:name="datastorepreferencedatastore.MainActivity"
             android:exported="true"
-            android:label="@string/title_activity_intent1"
+            android:label="CSE225Android"
             android:theme="@style/Theme.CSE225Android">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".IntentActivity2"
-            android:exported="true"
-            android:theme="@style/Theme.CSE225Android" />
-        <activity
-            android:name=".IntentActivity3"
-            android:exported="true"
-            android:theme="@style/Theme.CSE225Android" />
-        <activity
-            android:name=".IntentActivity4"
-            android:exported="true"
-            android:theme="@style/Theme.CSE225Android" />
-        <activity
-            android:name=".IntentActivity5"
-            android:exported="true"
-            android:theme="@style/Theme.CSE225Android" />
-        <activity
-            android:name=".FlashcardApp"
-            android:exported="false"
-            android:label="Flashcard Study App"
-            android:theme="@style/Theme.CSE225Android">
-        </activity>
-        <activity
-            android:name=".DrawerNavigationExample"
-            android:exported="false"
-            android:label="Drawer &amp; Vertical Pager"
-            android:theme="@style/Theme.CSE225Android" />
-        <activity
-            android:name=".NavigationExample"
-            android:exported="false"
-            android:label="@string/title_activity_navigation_example"
-            android:theme="@style/Theme.CSE225Android" />
-        <activity
-            android:name=".NotificationProject"
-            android:exported="false"
-            android:label="@string/title_activity_notification_project"
-            android:theme="@style/Theme.CSE225Android" />
-        <activity
-            android:name=".ACTIVITY6"
-            android:exported="false"
-            android:label="@string/title_activity_6"
-            android:theme="@style/Theme.CSE225Android" />
-        <activity
-            android:name=".MaterialFoundationEx1"
-            android:exported="false"
-            android:label="Material Foundation Ex1"
-            android:theme="@style/Theme.CSE225Android" />
-        <activity
-            android:name=".MaterialFoundationExample"
-            android:exported="false"
-            android:label="@string/title_activity_material_foundation_example"
-            android:theme="@style/Theme.CSE225Android" />
-        <activity
-            android:name=".ACTIVITY3"
-            android:exported="false" />
-        <activity
-            android:name=".Activity3Spinner"
-            android:exported="false" />
-        <activity
-            android:name=".Activity3MenuBar"
-            android:exported="false" />
-        <activity
-            android:name=".Activity3Grids"
-            android:exported="false" />
-        <activity
-            android:name=".Activity3RatingBar"
-            android:exported="false" />
-        <activity
-            android:name=".Activity3LastScreen"
-            android:exported="false" />
-        <activity
-            android:name=".ACTIVITY5"
-            android:exported="false"
-            android:label="@string/title_activity_5"
-            android:theme="@style/Theme.CSE225Android" />
-        <activity
-            android:name=".LoginPage"
-            android:exported="false" />
-        <activity
-            android:name=".ProjectAlarm"
-            android:exported="false" />
-
-        <receiver
-            android:name=".AlarmReceiver"
-            android:exported="false" />
-        <receiver
-            android:name=".SnoozeReceiver"
-            android:exported="false" />
-        <receiver
-            android:name=".Activity6AlarmReceiver"
-            android:exported="false" />
-
-        <service
-            android:name=".Activity6JobService"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
     </application>
 
 </manifest>
