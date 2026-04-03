@@ -3,21 +3,20 @@ package datastorepreferencedatastore
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.MaterialTheme
 import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val manager = DataStoreManager(this)
-        val factory = MainViewModelFactory(manager)
-        val viewModel = ViewModelProvider(this, factory)
-            .get(MainViewModel::class.java)
+        
+        // Initialize Repository and ViewModel for Secure Settings
+        val repository = SecureSettingsRepository(applicationContext)
+        val factory = SecureSettingsViewModelFactory(repository)
+        val viewModel = ViewModelProvider(this, factory)[SecureSettingsViewModel::class.java]
 
         setContent {
-            MaterialTheme {
-                MainScreen(viewModel)
-            }
+            // SecureSettingsPage handles its own MaterialTheme and surface
+            SecureSettingsPage(viewModel)
         }
     }
 }
