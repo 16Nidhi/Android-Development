@@ -1,7 +1,11 @@
 package datastorepreferencedatastore
 
+import androidx.compose.animation.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -11,224 +15,291 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(viewModel: SecureSettingsViewModel) {
     val settings by viewModel.uiState.collectAsState()
-    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    
+    // Vibrant gradient background - definitely NOT white
+    val mainGradient = Brush.verticalGradient(
+        colors = listOf(
+            Color(0xFFEEF2FF), // Very Light Indigo
+            Color(0xFFE0E7FF), // Light Indigo
+            Color(0xFFC7D2FE)  // Soft Indigo
+        )
+    )
 
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = {
-            LargeTopAppBar(
-                title = {
-                    Text(
-                        "Settings",
-                        style = MaterialTheme.typography.headlineMedium,
-                        fontWeight = FontWeight.Bold
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(mainGradient)
+    ) {
+        Scaffold(
+            containerColor = Color.Transparent, // Critical: makes the Box background visible
+            topBar = {
+                LargeTopAppBar(
+                    title = {
+                        Text(
+                            "Secure Settings",
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.Black,
+                            letterSpacing = (-1).sp
+                        )
+                    },
+                    navigationIcon = {
+                        IconButton(onClick = { /* Handle back */ }) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        }
+                    },
+                    colors = TopAppBarDefaults.largeTopAppBarColors(
+                        containerColor = Color.Transparent,
+                        scrolledContainerColor = Color.White.copy(alpha = 0.8f)
                     )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { /* Handle back */ }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                scrollBehavior = scrollBehavior
-            )
-        }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Spacer(modifier = Modifier.height(8.dp))
-
-            // Appearance Section
-            SettingsCategory(title = "Appearance") {
-                SettingsSwitchItem(
-                    icon = Icons.Default.Palette,
-                    title = "Dark Mode",
-                    subtitle = "Adjust theme to your preference",
-                    checked = settings.isDarkMode,
-                    onCheckedChange = { viewModel.updateDarkMode(it) }
                 )
             }
-
-            // Profile Section
-            SettingsCategory(title = "Profile") {
-                var tempUsername by remember { mutableStateOf(settings.username) }
-                LaunchedEffect(settings.username) { tempUsername = settings.username }
-
-                SettingsInputItem(
-                    icon = Icons.Default.Person,
-                    title = "Username",
-                    value = tempUsername,
-                    onValueChange = { tempUsername = it },
-                    onSave = { viewModel.updateUsername(tempUsername) }
-                )
-            }
-
-            // Preferences Section
-            SettingsCategory(title = "General Preferences") {
-                SettingsSwitchItem(
-                    icon = Icons.Default.Notifications,
-                    title = "Notifications",
-                    subtitle = "Manage your alert preferences",
-                    checked = settings.notificationsEnabled,
-                    onCheckedChange = { viewModel.updateNotifications(it) }
-                )
-                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp)
-                SettingsSwitchItem(
-                    icon = Icons.Default.Cloud,
-                    title = "Cloud Backup",
-                    subtitle = "Keep your data synchronized",
-                    checked = settings.backupActive,
-                    onCheckedChange = { viewModel.updateBackup(it) }
-                )
-            }
-
-            // Security Section
-            SettingsCategory(title = "Security & Privacy") {
-                SettingsSwitchItem(
-                    icon = Icons.Default.Fingerprint,
-                    title = "Biometric Lock",
-                    subtitle = "Secure access with fingerprint",
-                    checked = settings.fingerprintEnabled,
-                    onCheckedChange = { viewModel.updateFingerprint(it) }
-                )
-                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp)
-                
-                var tempToken by remember { mutableStateOf(settings.privateToken) }
-                LaunchedEffect(settings.privateToken) { tempToken = settings.privateToken }
-
-                SettingsInputItem(
-                    icon = Icons.Default.VpnKey,
-                    title = "Private Token",
-                    value = tempToken,
-                    onValueChange = { tempToken = it },
-                    onSave = { viewModel.updateToken(tempToken) }
-                )
-            }
-
-            Text(
-                text = "Data is encrypted and stored locally.",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.outline,
+        ) { paddingValues ->
+            Column(
                 modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.CenterHorizontally)
-            )
-            
-            Spacer(modifier = Modifier.height(24.dp))
+                    .padding(paddingValues)
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 20.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                // Profile Banner
+                PremiumProfileBanner(username = settings.username)
+
+                // Personalization
+                SettingsCategorySection(title = "Experience") {
+                    SettingsToggleRow(
+                        icon = Icons.Default.Palette,
+                        iconColor = Color(0xFF6366F1),
+                        title = "Dark Theme",
+                        subtitle = "Switch to a darker interface",
+                        checked = settings.isDarkMode,
+                        onCheckedChange = { viewModel.updateDarkMode(it) }
+                    )
+                }
+
+                // Account
+                SettingsCategorySection(title = "Account Settings") {
+                    var tempUsername by remember { mutableStateOf(settings.username) }
+                    LaunchedEffect(settings.username) { tempUsername = settings.username }
+
+                    SettingsInputRow(
+                        icon = Icons.Default.PersonOutline,
+                        iconColor = Color(0xFF10B981),
+                        title = "Username",
+                        value = tempUsername,
+                        onValueChange = { tempUsername = it },
+                        onSave = { viewModel.updateUsername(tempUsername) }
+                    )
+                }
+
+                // Security
+                SettingsCategorySection(title = "Privacy & Security") {
+                    SettingsToggleRow(
+                        icon = Icons.Default.Fingerprint,
+                        iconColor = Color(0xFFEF4444),
+                        title = "Biometric Lock",
+                        subtitle = "Secure app with fingerprint",
+                        checked = settings.fingerprintEnabled,
+                        onCheckedChange = { viewModel.updateFingerprint(it) }
+                    )
+                    
+                    var tempToken by remember { mutableStateOf(settings.privateToken) }
+                    LaunchedEffect(settings.privateToken) { tempToken = settings.privateToken }
+
+                    SettingsInputRow(
+                        icon = Icons.Default.Https,
+                        iconColor = Color(0xFF8B5CF6),
+                        title = "Secret Token",
+                        value = tempToken,
+                        onValueChange = { tempToken = it },
+                        onSave = { viewModel.updateToken(tempToken) },
+                        isSensitive = true
+                    )
+                }
+
+                // Notifications
+                SettingsCategorySection(title = "System") {
+                    SettingsToggleRow(
+                        icon = Icons.Default.NotificationsNone,
+                        iconColor = Color(0xFFF59E0B),
+                        title = "Push Notifications",
+                        subtitle = "Alerts and sound effects",
+                        checked = settings.notificationsEnabled,
+                        onCheckedChange = { viewModel.updateNotifications(it) }
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(30.dp))
+            }
         }
     }
 }
 
 @Composable
-fun SettingsCategory(
-    title: String,
-    content: @Composable ColumnScope.() -> Unit
-) {
-    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+fun PremiumProfileBanner(username: String) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .shadow(16.dp, RoundedCornerShape(32.dp)),
+        shape = RoundedCornerShape(32.dp),
+        color = Color.White
+    ) {
+        Box(
+            modifier = Modifier
+                .background(
+                    Brush.linearGradient(
+                        colors = listOf(Color(0xFF4F46E5), Color(0xFF7C3AED))
+                    )
+                )
+                .padding(24.dp)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Surface(
+                    shape = CircleShape,
+                    color = Color.White.copy(alpha = 0.25f),
+                    modifier = Modifier.size(60.dp)
+                ) {
+                    Icon(
+                        Icons.Default.AccountCircle,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.padding(8.dp).fillMaxSize()
+                    )
+                }
+                Spacer(modifier = Modifier.width(20.dp))
+                Column {
+                    Text("Settings for", style = MaterialTheme.typography.labelMedium, color = Color.White.copy(alpha = 0.8f))
+                    Text(username, style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold, color = Color.White)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun SettingsCategorySection(title: String, content: @Composable ColumnScope.() -> Unit) {
+    Column {
         Text(
-            text = title,
+            text = title.uppercase(),
             style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(start = 8.dp, bottom = 8.dp)
+            color = Color(0xFF4F46E5),
+            fontWeight = FontWeight.ExtraBold,
+            letterSpacing = 1.2.sp,
+            modifier = Modifier.padding(start = 12.dp, bottom = 12.dp)
         )
-        Card(
+        Surface(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
-            )
+            color = Color.White.copy(alpha = 0.9f),
+            shadowElevation = 2.dp
         ) {
-            Column(content = content)
+            Column(modifier = Modifier.padding(8.dp), content = content)
         }
     }
 }
 
 @Composable
-fun SettingsSwitchItem(
+fun SettingsToggleRow(
     icon: ImageVector,
+    iconColor: Color,
     title: String,
     subtitle: String,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit
 ) {
     ListItem(
+        modifier = Modifier.clip(RoundedCornerShape(16.dp)).clickable { onCheckedChange(!checked) },
         headlineContent = { Text(title, fontWeight = FontWeight.SemiBold) },
-        supportingContent = { Text(subtitle) },
+        supportingContent = { Text(subtitle, color = Color.Gray, fontSize = 12.sp) },
         leadingContent = {
-            Surface(
-                color = MaterialTheme.colorScheme.primaryContainer,
-                shape = RoundedCornerShape(12.dp),
-                modifier = Modifier.size(40.dp)
+            Box(
+                modifier = Modifier.size(44.dp).background(iconColor.copy(alpha = 0.12f), CircleShape),
+                contentAlignment = Alignment.Center
             ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
+                Icon(icon, contentDescription = null, tint = iconColor, modifier = Modifier.size(22.dp))
             }
         },
         trailingContent = {
-            Switch(
-                checked = checked,
-                onCheckedChange = onCheckedChange
-            )
+            Switch(checked = checked, onCheckedChange = onCheckedChange)
         },
-        colors = ListItemDefaults.colors(containerColor = androidx.compose.ui.graphics.Color.Transparent)
+        colors = ListItemDefaults.colors(containerColor = Color.Transparent)
     )
 }
 
 @Composable
-fun SettingsInputItem(
+fun SettingsInputRow(
     icon: ImageVector,
+    iconColor: Color,
     title: String,
     value: String,
     onValueChange: (String) -> Unit,
-    onSave: () -> Unit
+    onSave: () -> Unit,
+    isSensitive: Boolean = false
 ) {
-    Column(modifier = Modifier.padding(16.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(20.dp)
-            )
-            Spacer(modifier = Modifier.width(12.dp))
-            Text(text = title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
-            singleLine = true,
-            trailingIcon = {
-                IconButton(onClick = onSave) {
-                    Icon(Icons.Default.Check, contentDescription = "Save", tint = MaterialTheme.colorScheme.primary)
+    var editing by remember { mutableStateOf(false) }
+
+    Column {
+        ListItem(
+            modifier = Modifier.clip(RoundedCornerShape(16.dp)).clickable { editing = !editing },
+            headlineContent = { Text(title, fontWeight = FontWeight.SemiBold) },
+            supportingContent = { 
+                Text(
+                    text = if (isSensitive && !editing) "••••••••" else if (value.isEmpty()) "Not set" else value,
+                    color = Color(0xFF4F46E5)
+                ) 
+            },
+            leadingContent = {
+                Box(
+                    modifier = Modifier.size(44.dp).background(iconColor.copy(alpha = 0.12f), CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(icon, contentDescription = null, tint = iconColor, modifier = Modifier.size(22.dp))
                 }
             },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = MaterialTheme.colorScheme.primary,
-                unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
-                focusedContainerColor = MaterialTheme.colorScheme.surface,
-                unfocusedContainerColor = MaterialTheme.colorScheme.surface
-            )
+            trailingContent = {
+                Icon(if (editing) Icons.Default.KeyboardArrowUp else Icons.Default.ChevronRight, contentDescription = null, tint = Color.LightGray)
+            },
+            colors = ListItemDefaults.colors(containerColor = Color.Transparent)
         )
+
+        AnimatedVisibility(visible = editing) {
+            Row(
+                modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                OutlinedTextField(
+                    value = value,
+                    onValueChange = onValueChange,
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(16.dp),
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White
+                    )
+                )
+                Button(
+                    onClick = { onSave(); editing = false },
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4F46E5))
+                ) {
+                    Text("Save")
+                }
+            }
+        }
     }
 }
