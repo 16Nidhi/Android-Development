@@ -15,8 +15,8 @@ class MainActivity : ComponentActivity() {
         val viewModel = ViewModelProvider(this, factory)[SecureSettingsViewModel::class.java]
 
         setContent {
-            // SecureSettingsPage handles its own MaterialTheme and surface
-            SecureSettingsPage(viewModel)
+            // Updated to use SettingsScreen which contains the modern UI and resolved warnings
+            SettingsScreen(viewModel)
         }
     }
 }
