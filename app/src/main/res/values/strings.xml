@@ -31,4 +31,5 @@
     <string name="title_activity_navigation_example">NavigationExample</string>
     <string name="title_activity_intent1">IntentActivity1</string>
     <string name="title_activity_scoped_storage_example">ScopedStorageExample</string>
+    <string name="title_activity_7">ACTIVITY7</string>
 </resources>

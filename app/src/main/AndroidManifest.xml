@@ -16,9 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CSE225Android">
         <activity
-            android:name=".ScopedStorageExample"
+            android:name=".ACTIVITY7"
             android:exported="true"
-            android:label="@string/title_activity_scoped_storage_example"
+            android:label="@string/title_activity_7"
             android:theme="@style/Theme.CSE225Android">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,9 +27,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ScopedStorageExample"
+            android:exported="false"
+            android:label="@string/title_activity_scoped_storage_example"
+            android:theme="@style/Theme.CSE225Android"/>
+        <activity
             android:name="datastorepreferencedatastore.MainActivity"
             android:exported="false"
-            android:theme="@style/Theme.CSE225Android"/>
+            android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".Dashboard"
             android:exported="false" />

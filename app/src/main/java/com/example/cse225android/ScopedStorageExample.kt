@@ -30,7 +30,6 @@ class ScopedStorageExample : ComponentActivity() {
         }
     }
 }
-
 fun saveImageToGallery(context: Context, bitmap: Bitmap) {
     val filename = "ScopedImage_${System.currentTimeMillis()}.jpg"
     val contentValues = ContentValues().apply {
@@ -58,7 +57,6 @@ fun saveImageToGallery(context: Context, bitmap: Bitmap) {
         }
     }
 }
-
 @Composable
 fun ScopedStorageApp() {
     val context = LocalContext.current
@@ -74,9 +72,7 @@ fun ScopedStorageApp() {
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
