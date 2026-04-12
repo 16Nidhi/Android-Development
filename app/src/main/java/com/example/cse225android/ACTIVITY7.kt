@@ -49,7 +49,6 @@ class ACTIVITY7 : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             val context = LocalContext.current
             val scope = rememberCoroutineScope()
@@ -98,15 +97,11 @@ class ACTIVITY7 : ComponentActivity() {
                     }
                 ) { innerPadding ->
                     Column(
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.surface)
-                            .padding(16.dp),
+                        modifier = Modifier.padding(innerPadding).fillMaxSize()
+                            .background(MaterialTheme.colorScheme.surface).padding(16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        // Task 1: Preferences DataStore
                         ElevatedCard(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(16.dp)
@@ -138,11 +133,6 @@ class ACTIVITY7 : ComponentActivity() {
                                             text = if (isDarkMode) "Dark Mode" else "Light Mode",
                                             style = MaterialTheme.typography.bodyLarge
                                         )
-                                        /*Text(
-                                            text = "Saved in DataStore",
-                                            style = MaterialTheme.typography.bodySmall,
-                                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                                        )*/
                                     }
                                     Switch(
                                         checked = isDarkMode,
@@ -155,7 +145,11 @@ class ACTIVITY7 : ComponentActivity() {
                                         },
                                         thumbContent = {
                                             if (isDarkMode) {
-                                                Icon(Icons.Default.Done, null, Modifier.size(16.dp))
+                                                Icon(
+                                                    Icons.Default.Done,
+                                                    null, Modifier.size(16.dp)
+                                                )
+
                                             }
                                         }
                                     )
@@ -163,7 +157,6 @@ class ACTIVITY7 : ComponentActivity() {
                             }
                         }
 
-                        // Task 2: Scoped Storage
                         ElevatedCard(
                             modifier = Modifier.fillMaxWidth(),
                             shape = RoundedCornerShape(16.dp)
@@ -205,9 +198,7 @@ class ACTIVITY7 : ComponentActivity() {
                                 Spacer(modifier = Modifier.height(16.dp))
 
                                 Box(
-                                    modifier = Modifier
-                                        .size(220.dp)
-                                        .clip(RoundedCornerShape(12.dp))
+                                    modifier = Modifier.size(220.dp).clip(RoundedCornerShape(12.dp))
                                         .background(MaterialTheme.colorScheme.surfaceVariant)
                                         .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(12.dp)),
                                     contentAlignment = Alignment.Center
