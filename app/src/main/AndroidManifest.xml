@@ -17,14 +17,9 @@
         android:theme="@style/Theme.CSE225Android">
         <activity
             android:name=".ACTIVITY7"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_7"
             android:theme="@style/Theme.CSE225Android">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ScopedStorageExample"
@@ -67,7 +62,12 @@
             android:exported="false" />
         <activity
             android:name=".ACTIVITY4"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ACTIVITY5"
             android:exported="false" />

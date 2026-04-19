@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,24 +15,32 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -58,20 +68,24 @@ class ACTIVITY4SecondScreen : ComponentActivity() {
 @Composable
 fun SecondScreen(onBack: () -> Unit = {}) {
     var taskTitle by remember { mutableStateOf("") }
-    var priority by remember { mutableStateOf(1) }
+    var priority by remember { mutableStateOf(3) }
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Task", fontWeight = FontWeight.Bold) },
+                title = { Text("Add Task", fontWeight = FontWeight.ExtraBold, color = Color.White) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = "Back",
+                            tint = Color.White
                         )
                     }
-                }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Color(0xFF2196F3)
+                )
             )
         }
     ) { paddingValues ->
@@ -79,68 +93,87 @@ fun SecondScreen(onBack: () -> Unit = {}) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp)
+                .background(Color(0xFFF5F5F5))
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "Create New Task",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 24.dp)
-            )
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = "Task Details",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF2196F3),
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
 
-            Text(
-                text = "Task Title",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-            TextField(
-                value = taskTitle,
-                onValueChange = { taskTitle = it },
-                placeholder = { Text("Enter task title") },
-                modifier = Modifier.fillMaxWidth()
-            )
+                    OutlinedTextField(
+                        value = taskTitle,
+                        onValueChange = { taskTitle = it },
+                        label = { Text("What needs to be done?") },
+                        placeholder = { Text("e.g. Study for Android ETP") },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp)
+                    )
 
-            Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
 
-            CategorySpinner()
+                    CategorySpinner()
 
-            Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
 
-            Text(
-                text = "Set Priority",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
+                    Text(
+                        text = "Priority Level",
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        modifier = Modifier.padding(bottom = 8.dp)
+                    )
 
-            PriorityRatingBar(
-                rating = priority,
-                onRatingChanged = { priority = it }
-            )
+                    PriorityRatingBar(
+                        rating = priority,
+                        onRatingChanged = { priority = it }
+                    )
+                }
+            }
 
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "Current Priority: $priority", fontWeight = FontWeight.Medium)
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Button(
+                onClick = { /* Handle Save */ },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3))
+            ) {
+                Icon(Icons.Default.Check, contentDescription = null)
+                Spacer(Modifier.size(8.dp))
+                Text("SAVE TASK", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+            }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategorySpinner() {
-    val items = listOf("Work", "Food", "Travel", "Shopping")
+    val items = listOf("Work", "Personal", "Shopping", "Health", "Education")
     var expanded by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf(items[0]) }
 
-    Column(
-        modifier = Modifier.fillMaxWidth()
-    ) {
+    Column {
         Text(
-            text = "Pick Category",
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
+            text = "Category",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.SemiBold,
             modifier = Modifier.padding(bottom = 8.dp)
         )
-        TextField(
+        OutlinedTextField(
             value = selectedItem,
             onValueChange = { },
             readOnly = true,
@@ -153,12 +186,14 @@ fun CategorySpinner() {
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { expanded = !expanded }
+                .clickable { expanded = !expanded },
+            shape = RoundedCornerShape(12.dp)
         )
 
         DropdownMenu(
             expanded = expanded,
-            onDismissRequest = { expanded = false }
+            onDismissRequest = { expanded = false },
+            modifier = Modifier.fillMaxWidth(0.8f)
         ) {
             items.forEach { item ->
                 DropdownMenuItem(
@@ -179,14 +214,17 @@ fun PriorityRatingBar(
     rating: Int,
     onRatingChanged: (Int) -> Unit
 ) {
-    Row {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
         for (i in 1..maxRating) {
             Icon(
                 imageVector = Icons.Default.Star,
                 contentDescription = "Star $i",
-                tint = if (i <= rating) Color(0xFFFFC107) else Color.Gray,
+                tint = if (i <= rating) Color(0xFFFFC107) else Color(0xFFE0E0E0),
                 modifier = Modifier
-                    .size(44.dp)
+                    .size(48.dp)
                     .clickable { onRatingChanged(i) }
             )
         }
