@@ -73,7 +73,12 @@ fun SecondScreen(onBack: () -> Unit = {}) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Add Task", fontWeight = FontWeight.ExtraBold, color = Color.White) },
+                title = {
+                    Text(
+                        "Add Task",
+                         fontWeight = FontWeight.ExtraBold,
+                         color = Color.White
+                    )},
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
@@ -90,11 +95,8 @@ fun SecondScreen(onBack: () -> Unit = {}) {
         }
     ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .background(Color(0xFFF5F5F5))
-                .padding(20.dp),
+            modifier = Modifier.fillMaxSize().padding(paddingValues)
+                .background(Color(0xFFF5F5F5)).padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Card(
@@ -144,10 +146,8 @@ fun SecondScreen(onBack: () -> Unit = {}) {
             Spacer(modifier = Modifier.height(32.dp))
 
             Button(
-                onClick = { /* Handle Save */ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
+                onClick = {  },
+                modifier = Modifier.fillMaxWidth().height(56.dp),
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2196F3))
             ) {
@@ -184,9 +184,7 @@ fun CategorySpinner() {
                     modifier = Modifier.clickable { expanded = !expanded }
                 )
             },
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { expanded = !expanded },
+            modifier = Modifier.fillMaxWidth().clickable { expanded = !expanded },
             shape = RoundedCornerShape(12.dp)
         )
 
@@ -223,18 +221,9 @@ fun PriorityRatingBar(
                 imageVector = Icons.Default.Star,
                 contentDescription = "Star $i",
                 tint = if (i <= rating) Color(0xFFFFC107) else Color(0xFFE0E0E0),
-                modifier = Modifier
-                    .size(48.dp)
-                    .clickable { onRatingChanged(i) }
+                modifier = Modifier.size(48.dp).clickable { onRatingChanged(i) }
             )
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview11() {
-    CSE225AndroidTheme {
-        SecondScreen()
-    }
-}

@@ -47,9 +47,7 @@ fun FirstScreen(onTimeout: () -> Unit) {
         onTimeout()
     }
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF2196F3)),
+        modifier = Modifier.fillMaxSize().background(Color(0xFF2196F3)),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -75,10 +73,3 @@ fun FirstScreen(onTimeout: () -> Unit) {
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview10() {
-    CSE225AndroidTheme {
-        FirstScreen {}
-    }
-}
