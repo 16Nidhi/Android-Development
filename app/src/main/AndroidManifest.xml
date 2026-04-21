@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -14,18 +18,29 @@
         android:label="CSE225Android"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CSE225Android">
+        android:theme="@style/Theme.CSE225Android" >
+        <activity
+            android:name=".RuntimePermissionExample"
+            android:exported="true"
+            android:label="@string/title_activity_runtime_permission_example"
+            android:theme="@style/Theme.CSE225Android">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ACTIVITY7"
             android:exported="false"
             android:label="@string/title_activity_7"
-            android:theme="@style/Theme.CSE225Android">
+            android:theme="@style/Theme.CSE225Android" >
         </activity>
         <activity
             android:name=".ScopedStorageExample"
             android:exported="false"
             android:label="@string/title_activity_scoped_storage_example"
-            android:theme="@style/Theme.CSE225Android"/>
+            android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name="datastorepreferencedatastore.MainActivity"
             android:exported="false"
@@ -62,12 +77,7 @@
             android:exported="false" />
         <activity
             android:name=".ACTIVITY4"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".ACTIVITY5"
             android:exported="false" />
