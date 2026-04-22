@@ -18,24 +18,29 @@
         android:label="CSE225Android"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.CSE225Android" >
+        android:theme="@style/Theme.CSE225Android">
         <activity
-            android:name=".RuntimePermissionExample"
+            android:name=".NavigationDemoApp"
             android:exported="true"
-            android:label="@string/title_activity_runtime_permission_example"
+            android:label="@string/title_activity_navigation_demo_app"
             android:theme="@style/Theme.CSE225Android">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+        <activity
+            android:name=".RuntimePermissionExample"
+            android:exported="false"
+            android:label="@string/title_activity_runtime_permission_example"
+            android:theme="@style/Theme.CSE225Android"/>
         <activity
             android:name=".ACTIVITY7"
             android:exported="false"
             android:label="@string/title_activity_7"
-            android:theme="@style/Theme.CSE225Android" >
-        </activity>
+            android:theme="@style/Theme.CSE225Android"></activity>
         <activity
             android:name=".ScopedStorageExample"
             android:exported="false"
