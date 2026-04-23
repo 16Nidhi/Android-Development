@@ -63,7 +63,11 @@ fun NavigationScreen() {
                         selectedScreen = "Home"
                         scope.launch { drawerState.close() }
                     },
-                    icon = { Icon(Icons.Default.Home, contentDescription = null) },
+                    icon = {
+                        Icon(
+                            Icons.Default.Home,
+                            contentDescription = null)
+                           },
                     modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                 )
                 NavigationDrawerItem(
@@ -73,7 +77,11 @@ fun NavigationScreen() {
                         selectedScreen = "Courses"
                         scope.launch { drawerState.close() }
                     },
-                    icon = { Icon(Icons.Default.Book, contentDescription = null) },
+                    icon = {
+                        Icon(
+                            Icons.Default.Book,
+                            contentDescription = null)
+                           },
                     modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                 )
                 NavigationDrawerItem(
@@ -83,7 +91,10 @@ fun NavigationScreen() {
                         selectedScreen = "Profile"
                         scope.launch { drawerState.close() }
                     },
-                    icon = { Icon(Icons.Default.Person, contentDescription = null) },
+                    icon = {
+                        Icon(Icons.Default.Person,
+                            contentDescription = null)
+                           },
                     modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                 )
             }
@@ -92,12 +103,19 @@ fun NavigationScreen() {
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = { Text(selectedScreen, fontWeight = FontWeight.Bold) },
+                    title = {
+                        Text(
+                            selectedScreen,
+                            fontWeight = FontWeight.Bold
+                        ) },
                     navigationIcon = {
                         IconButton(onClick = {
                             scope.launch { drawerState.open() }
                         }) {
-                            Icon(Icons.Default.Menu, contentDescription = "Menu")
+                            Icon(
+                                Icons.Default.Menu,
+                                contentDescription = "Menu"
+                            )
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -144,7 +162,11 @@ fun HomeScreen() {
                         }
                     },
                     text = { Text(item.title) },
-                    icon = { Icon(item.icon, contentDescription = null) }
+                    icon = {
+                        Icon(
+                            item.icon,
+                            contentDescription = null
+                        ) }
                 )
             }
         }
@@ -181,23 +203,16 @@ fun CoursePager() {
     ) { page ->
         val course = courses[page]
         ElevatedCard(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(400.dp)
-                .padding(vertical = 48.dp),
+            modifier = Modifier.fillMaxWidth().height(400.dp).padding(vertical = 48.dp),
             shape = MaterialTheme.shapes.extraLarge
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(24.dp),
+                modifier = Modifier.fillMaxSize().padding(24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 Box(
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(CircleShape)
+                    modifier = Modifier.size(100.dp).clip(CircleShape)
                         .background(course.color.copy(alpha = 0.2f)),
                     contentAlignment = Alignment.Center
                 ) {
@@ -244,20 +259,19 @@ fun TaskVerticalPager() {
         pageSpacing = 16.dp
     ) { page ->
         Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer
             )
         ) {
             Row(
-                modifier = Modifier
-                    .padding(24.dp)
-                    .fillMaxWidth(),
+                modifier = Modifier.padding(24.dp).fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(Icons.Default.CheckCircle, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                Icon(
+                    Icons.Default.CheckCircle,
+                    contentDescription = null, tint = MaterialTheme.colorScheme.primary
+                )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = tasks[page],
@@ -271,9 +285,7 @@ fun TaskVerticalPager() {
 @Composable
 fun OverviewScreen() {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -300,9 +312,7 @@ fun OverviewScreen() {
 @Composable
 fun UpdatesScreen() {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -327,15 +337,11 @@ fun UpdatesScreen() {
 @Composable
 fun ProfileScreen() {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
+        modifier = Modifier.fillMaxSize().padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
-            modifier = Modifier
-                .size(120.dp)
-                .clip(CircleShape)
+            modifier = Modifier.size(120.dp).clip(CircleShape)
                 .background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center
         ) {
