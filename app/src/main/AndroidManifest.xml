@@ -20,6 +20,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CSE225Android">
         <activity
+            android:name=".ACTIVITY8"
+            android:exported="false"
+            android:label="@string/title_activity_8"
+            android:theme="@style/Theme.CSE225Android" />
+        <activity
             android:name=".NavigationDemoApp"
             android:exported="true"
             android:label="@string/title_activity_navigation_demo_app"
@@ -29,18 +34,17 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".RuntimePermissionExample"
             android:exported="false"
             android:label="@string/title_activity_runtime_permission_example"
-            android:theme="@style/Theme.CSE225Android"/>
+            android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".ACTIVITY7"
             android:exported="false"
             android:label="@string/title_activity_7"
-            android:theme="@style/Theme.CSE225Android"></activity>
+            android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".ScopedStorageExample"
             android:exported="false"

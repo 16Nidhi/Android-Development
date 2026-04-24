@@ -34,4 +34,5 @@
     <string name="title_activity_7">ACTIVITY7</string>
     <string name="title_activity_runtime_permission_example">RuntimePermissionExample</string>
     <string name="title_activity_navigation_demo_app">NavigationDemoApp</string>
+    <string name="title_activity_8">ACTIVITY8</string>
 </resources>
