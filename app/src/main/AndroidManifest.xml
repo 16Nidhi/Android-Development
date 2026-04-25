@@ -26,15 +26,9 @@
             android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".NavigationDemoApp"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/title_activity_navigation_demo_app"
-            android:theme="@style/Theme.CSE225Android">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/Theme.CSE225Android"/>
         <activity
             android:name=".RuntimePermissionExample"
             android:exported="false"
@@ -80,7 +74,13 @@
             android:exported="false" />
         <activity
             android:name=".ACTIVITY2"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ACTIVITY3"
             android:exported="false" />
