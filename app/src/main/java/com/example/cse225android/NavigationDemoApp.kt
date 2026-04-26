@@ -24,12 +24,35 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
+// Custom Color Palette
+private val AppLightColors = lightColorScheme(
+    primary = Color(0xFF006782),
+    onPrimary = Color.White,
+    primaryContainer = Color(0xFFBBE9FF),
+    onPrimaryContainer = Color(0xFF001F29),
+    secondary = Color(0xFF4C626B),
+    onSecondary = Color.White,
+    secondaryContainer = Color(0xFFCFE6F1),
+    onSecondaryContainer = Color(0xFF071E26),
+    background = Color(0xFFF1F4F9), // Soft Blue-Grey background
+    surface = Color(0xFFF1F4F9),
+    onBackground = Color(0xFF191C1E),
+    onSurface = Color(0xFF191C1E),
+    surfaceVariant = Color(0xFFDCE4E9),
+    onSurfaceVariant = Color(0xFF40484C)
+)
+
 class NavigationDemoApp : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
-                NavigationScreen()
+            MaterialTheme(colorScheme = AppLightColors) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    NavigationScreen()
+                }
             }
         }
     }
@@ -45,13 +68,16 @@ fun NavigationScreen() {
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
-            ModalDrawerSheet {
+            ModalDrawerSheet(
+                drawerContainerColor = MaterialTheme.colorScheme.surfaceVariant
+            ) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     "My App Menu",
                     modifier = Modifier.padding(16.dp),
                     style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Bold
                 )
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
                 Spacer(modifier = Modifier.height(12.dp))
@@ -68,7 +94,12 @@ fun NavigationScreen() {
                             Icons.Default.Home,
                             contentDescription = null)
                            },
-                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                    colors = NavigationDrawerItemDefaults.colors(
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
                 )
                 NavigationDrawerItem(
                     label = { Text("Courses") },
@@ -82,7 +113,12 @@ fun NavigationScreen() {
                             Icons.Default.Book,
                             contentDescription = null)
                            },
-                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                    colors = NavigationDrawerItemDefaults.colors(
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
                 )
                 NavigationDrawerItem(
                     label = { Text("Profile") },
@@ -95,7 +131,12 @@ fun NavigationScreen() {
                         Icon(Icons.Default.Person,
                             contentDescription = null)
                            },
-                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                    colors = NavigationDrawerItemDefaults.colors(
+                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                        selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
                 )
             }
         }
@@ -119,13 +160,18 @@ fun NavigationScreen() {
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
                     )
                 )
             }
         ) { padding ->
-            Box(modifier = Modifier.padding(padding)) {
+            Box(modifier = Modifier
+                .padding(padding)
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+            ) {
                 when (selectedScreen) {
                     "Home" -> HomeScreen()
                     "Courses" -> CoursePager()
@@ -150,8 +196,9 @@ fun HomeScreen() {
     Column {
         TabRow(
             selectedTabIndex = pagerState.currentPage,
-            containerColor = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.primary
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            contentColor = MaterialTheme.colorScheme.primary,
+            divider = {}
         ) {
             tabs.forEachIndexed { index, item ->
                 Tab(
@@ -161,7 +208,7 @@ fun HomeScreen() {
                             pagerState.animateScrollToPage(index)
                         }
                     },
-                    text = { Text(item.title) },
+                    text = { Text(item.title, fontWeight = if(pagerState.currentPage == index) FontWeight.Bold else FontWeight.Normal) },
                     icon = {
                         Icon(
                             item.icon,
@@ -190,9 +237,9 @@ data class TabItem(val title: String, val icon: ImageVector)
 @Composable
 fun CoursePager() {
     val courses = listOf(
-        CourseData("Android Development", "Learn Kotlin and Jetpack Compose", Color(0xFF3DDC84)),
-        CourseData("Web Development", "Master HTML, CSS, and JS", Color(0xFFE34F26)),
-        CourseData("AI & ML", "Explore Data Science and AI", Color(0xFF4285F4))
+        CourseData("Android Development", "Learn Kotlin and Jetpack Compose", Color(0xFF006782)),
+        CourseData("Web Development", "Master HTML, CSS, and JS", Color(0xFF8B4100)),
+        CourseData("AI & ML", "Explore Data Science and AI", Color(0xFF4B6200))
     )
     val pagerState = rememberPagerState(pageCount = { courses.size })
 
@@ -203,8 +250,11 @@ fun CoursePager() {
     ) { page ->
         val course = courses[page]
         ElevatedCard(
-            modifier = Modifier.fillMaxWidth().height(400.dp).padding(vertical = 48.dp),
-            shape = MaterialTheme.shapes.extraLarge
+            modifier = Modifier.fillMaxWidth().height(450.dp).padding(vertical = 32.dp),
+            shape = MaterialTheme.shapes.extraLarge,
+            colors = CardDefaults.elevatedCardColors(
+                containerColor = Color.White
+            )
         ) {
             Column(
                 modifier = Modifier.fillMaxSize().padding(24.dp),
@@ -213,7 +263,7 @@ fun CoursePager() {
             ) {
                 Box(
                     modifier = Modifier.size(100.dp).clip(CircleShape)
-                        .background(course.color.copy(alpha = 0.2f)),
+                        .background(course.color.copy(alpha = 0.1f)),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -227,16 +277,22 @@ fun CoursePager() {
                 Text(
                     text = course.title,
                     style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = course.color
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = course.description,
                     style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
                 )
+
                 Spacer(modifier = Modifier.height(32.dp))
-                Button(onClick = { /* Enroll */ }) {
+                Button(
+                    onClick = {  },
+                    colors = ButtonDefaults.buttonColors(containerColor = course.color)
+                ) {
                     Text("Enroll Now")
                 }
             }
@@ -262,7 +318,8 @@ fun TaskVerticalPager() {
             modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer
-            )
+            ),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
         ) {
             Row(
                 modifier = Modifier.padding(24.dp).fillMaxWidth(),
@@ -270,12 +327,14 @@ fun TaskVerticalPager() {
             ) {
                 Icon(
                     Icons.Default.CheckCircle,
-                    contentDescription = null, tint = MaterialTheme.colorScheme.primary
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = tasks[page],
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }
         }
@@ -289,21 +348,27 @@ fun OverviewScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Icon(
-            Icons.Default.Dashboard,
-            contentDescription = null,
-            modifier = Modifier.size(64.dp),
-            tint = MaterialTheme.colorScheme.primary
-        )
-        Spacer(modifier = Modifier.height(16.dp))
+        Box(
+            modifier = Modifier.size(120.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primaryContainer),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                Icons.Default.Dashboard,
+                contentDescription = null,
+                modifier = Modifier.size(64.dp),
+                tint = MaterialTheme.colorScheme.primary
+            )
+        }
+        Spacer(modifier = Modifier.height(24.dp))
         Text(
             "Welcome Back!",
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
         )
         Text(
             "Here is your activity overview.",
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
@@ -320,16 +385,18 @@ fun UpdatesScreen() {
             Icons.Default.NewReleases,
             contentDescription = null,
             modifier = Modifier.size(64.dp),
-            tint = Color(0xFFF44336)
+            tint = Color(0xFFD32F2F)
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             "No New Updates",
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.headlineSmall,
+            fontWeight = FontWeight.Bold
         )
         Text(
             "Everything is up to date.",
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -356,17 +423,19 @@ fun ProfileScreen() {
         Text(
             "John Doe",
             style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
         )
         Text(
             "john.doe@example.com",
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(40.dp))
         OutlinedButton(
             onClick = { /* Edit Profile */ },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            shape = MaterialTheme.shapes.medium
         ) {
             Icon(Icons.Default.Edit, contentDescription = null)
             Spacer(modifier = Modifier.width(8.dp))
@@ -376,7 +445,8 @@ fun ProfileScreen() {
         Button(
             onClick = { /* Logout */ },
             modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
+            shape = MaterialTheme.shapes.medium
         ) {
             Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = null)
             Spacer(modifier = Modifier.width(8.dp))
@@ -388,7 +458,7 @@ fun ProfileScreen() {
 @Preview(showBackground = true)
 @Composable
 fun NavigationScreenPreview() {
-    MaterialTheme {
+    MaterialTheme(colorScheme = AppLightColors) {
         NavigationScreen()
     }
 }
