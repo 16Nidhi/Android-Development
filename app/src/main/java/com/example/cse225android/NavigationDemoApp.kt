@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Help
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.*
@@ -34,7 +35,7 @@ private val AppLightColors = lightColorScheme(
     onSecondary = Color.White,
     secondaryContainer = Color(0xFFCFE6F1),
     onSecondaryContainer = Color(0xFF071E26),
-    background = Color(0xFFF1F4F9), // Soft Blue-Grey background
+    background = Color(0xFFF1F4F9),
     surface = Color(0xFFF1F4F9),
     onBackground = Color(0xFF191C1E),
     onSurface = Color(0xFF191C1E),
@@ -73,7 +74,7 @@ fun NavigationScreen() {
             ) {
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
-                    "My App Menu",
+                    "Learning App",
                     modifier = Modifier.padding(16.dp),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.primary,
@@ -89,17 +90,8 @@ fun NavigationScreen() {
                         selectedScreen = "Home"
                         scope.launch { drawerState.close() }
                     },
-                    icon = {
-                        Icon(
-                            Icons.Default.Home,
-                            contentDescription = null)
-                           },
-                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
-                    colors = NavigationDrawerItemDefaults.colors(
-                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                        selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
+                    icon = { Icon(Icons.Default.Home, contentDescription = null) },
+                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                 )
                 NavigationDrawerItem(
                     label = { Text("Courses") },
@@ -108,17 +100,8 @@ fun NavigationScreen() {
                         selectedScreen = "Courses"
                         scope.launch { drawerState.close() }
                     },
-                    icon = {
-                        Icon(
-                            Icons.Default.Book,
-                            contentDescription = null)
-                           },
-                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
-                    colors = NavigationDrawerItemDefaults.colors(
-                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                        selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
+                    icon = { Icon(Icons.Default.Book, contentDescription = null) },
+                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                 )
                 NavigationDrawerItem(
                     label = { Text("Profile") },
@@ -127,16 +110,8 @@ fun NavigationScreen() {
                         selectedScreen = "Profile"
                         scope.launch { drawerState.close() }
                     },
-                    icon = {
-                        Icon(Icons.Default.Person,
-                            contentDescription = null)
-                           },
-                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
-                    colors = NavigationDrawerItemDefaults.colors(
-                        selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
-                        selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
+                    icon = { Icon(Icons.Default.Person, contentDescription = null) },
+                    modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
                 )
             }
         }
@@ -144,19 +119,10 @@ fun NavigationScreen() {
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = {
-                        Text(
-                            selectedScreen,
-                            fontWeight = FontWeight.Bold
-                        ) },
+                    title = { Text(selectedScreen, fontWeight = FontWeight.Bold) },
                     navigationIcon = {
-                        IconButton(onClick = {
-                            scope.launch { drawerState.open() }
-                        }) {
-                            Icon(
-                                Icons.Default.Menu,
-                                contentDescription = "Menu"
-                            )
+                        IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                            Icon(Icons.Default.Menu, contentDescription = "Menu")
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -167,11 +133,7 @@ fun NavigationScreen() {
                 )
             }
         ) { padding ->
-            Box(modifier = Modifier
-                .padding(padding)
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
-            ) {
+            Box(modifier = Modifier.padding(padding).fillMaxSize()) {
                 when (selectedScreen) {
                     "Home" -> HomeScreen()
                     "Courses" -> CoursePager()
@@ -182,118 +144,103 @@ fun NavigationScreen() {
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HomeScreen() {
-    val tabs = listOf(
-        TabItem("Overview", Icons.Default.Info),
-        TabItem("Updates", Icons.Default.Notifications),
-        TabItem("Tasks", Icons.AutoMirrored.Filled.List)
-    )
-    val pagerState = rememberPagerState(pageCount = { tabs.size })
-    val scope = rememberCoroutineScope()
-
-    Column {
-        TabRow(
-            selectedTabIndex = pagerState.currentPage,
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-            contentColor = MaterialTheme.colorScheme.primary,
-            divider = {}
+    Column(
+        modifier = Modifier.fillMaxSize().padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(24.dp))
+        Box(
+            modifier = Modifier.size(80.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primaryContainer),
+            contentAlignment = Alignment.Center
         ) {
-            tabs.forEachIndexed { index, item ->
-                Tab(
-                    selected = pagerState.currentPage == index,
-                    onClick = {
-                        scope.launch {
-                            pagerState.animateScrollToPage(index)
-                        }
-                    },
-                    text = { Text(item.title, fontWeight = if(pagerState.currentPage == index) FontWeight.Bold else FontWeight.Normal) },
-                    icon = {
-                        Icon(
-                            item.icon,
-                            contentDescription = null
-                        ) }
-                )
-            }
+            Icon(Icons.Default.Dashboard, null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(40.dp))
         }
-
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.fillMaxSize()
-        ) { page ->
-            when (page) {
-                0 -> OverviewScreen()
-                1 -> UpdatesScreen()
-                2 -> TaskVerticalPager()
+        Spacer(modifier = Modifier.height(16.dp))
+        Text("Welcome Back!", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
+        Text("Your dashboard is ready.", style = MaterialTheme.typography.bodyMedium, color = Color.Gray)
+        
+        Spacer(modifier = Modifier.height(32.dp))
+        
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            StatusCard("Courses", "4", Icons.Default.Book, Modifier.weight(1f))
+            StatusCard("Tasks", "12", Icons.AutoMirrored.Filled.List, Modifier.weight(1f))
+        }
+        
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Text("Overall Progress", fontWeight = FontWeight.Bold)
+                Spacer(modifier = Modifier.height(8.dp))
+                LinearProgressIndicator(
+                    progress = { 0.65f },
+                    modifier = Modifier.fillMaxWidth().height(8.dp).clip(CircleShape),
+                    color = MaterialTheme.colorScheme.primary,
+                    trackColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f),
+                )
+                Text("65% of monthly goal", style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(top = 4.dp))
             }
         }
     }
 }
 
-data class TabItem(val title: String, val icon: ImageVector)
+@Composable
+fun StatusCard(label: String, value: String, icon: ImageVector, modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Icon(icon, null, tint = MaterialTheme.colorScheme.onSecondaryContainer, modifier = Modifier.size(24.dp))
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(value, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Text(label, style = MaterialTheme.typography.bodySmall)
+        }
+    }
+}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CoursePager() {
     val courses = listOf(
-        CourseData("Android Development", "Learn Kotlin and Jetpack Compose", Color(0xFF006782)),
+        CourseData("Android Development", "Learn Kotlin and Compose", Color(0xFF006782)),
         CourseData("Web Development", "Master HTML, CSS, and JS", Color(0xFF8B4100)),
-        CourseData("AI & ML", "Explore Data Science and AI", Color(0xFF4B6200))
+        CourseData("AI & ML", "Explore Data Science", Color(0xFF4B6200))
     )
     val pagerState = rememberPagerState(pageCount = { courses.size })
 
-    HorizontalPager(
-        state = pagerState,
-        contentPadding = PaddingValues(horizontal = 32.dp),
-        pageSpacing = 16.dp
-    ) { page ->
-        val course = courses[page]
-        ElevatedCard(
-            modifier = Modifier.fillMaxWidth().height(450.dp).padding(vertical = 32.dp),
-            shape = MaterialTheme.shapes.extraLarge,
-            colors = CardDefaults.elevatedCardColors(
-                containerColor = Color.White
-            )
-        ) {
-            Column(
-                modifier = Modifier.fillMaxSize().padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+    Column(modifier = Modifier.fillMaxSize()) {
+        HorizontalPager(
+            state = pagerState,
+            contentPadding = PaddingValues(horizontal = 48.dp),
+            pageSpacing = 16.dp,
+            modifier = Modifier.weight(1f)
+        ) { page ->
+            val course = courses[page]
+            Card(
+                modifier = Modifier.fillMaxWidth().height(380.dp).padding(vertical = 32.dp),
+                shape = MaterialTheme.shapes.large,
+                colors = CardDefaults.cardColors(containerColor = Color.White)
             ) {
-                Box(
-                    modifier = Modifier.size(100.dp).clip(CircleShape)
-                        .background(course.color.copy(alpha = 0.1f)),
-                    contentAlignment = Alignment.Center
+                Column(
+                    modifier = Modifier.fillMaxSize().padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    Icon(
-                        Icons.Default.School,
-                        contentDescription = null,
-                        modifier = Modifier.size(48.dp),
-                        tint = course.color
-                    )
-                }
-                Spacer(modifier = Modifier.height(24.dp))
-                Text(
-                    text = course.title,
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold,
-                    color = course.color
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = course.description,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
-                )
-
-                Spacer(modifier = Modifier.height(32.dp))
-                Button(
-                    onClick = {  },
-                    colors = ButtonDefaults.buttonColors(containerColor = course.color)
-                ) {
-                    Text("Enroll Now")
+                    Icon(Icons.Default.School, null, modifier = Modifier.size(64.dp), tint = course.color)
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Text(text = course.title, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = course.color)
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = course.description, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Spacer(modifier = Modifier.height(32.dp))
+                    Button(onClick = { }, colors = ButtonDefaults.buttonColors(containerColor = course.color)) {
+                        Text("View Course")
+                    }
                 }
             }
         }
@@ -302,105 +249,6 @@ fun CoursePager() {
 
 data class CourseData(val title: String, val description: String, val color: Color)
 
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun TaskVerticalPager() {
-    val tasks = listOf("Finish Assignment", "Project Meeting", "Read Documentation", "Code Review")
-    val pagerState = rememberPagerState(pageCount = { tasks.size })
-
-    VerticalPager(
-        state = pagerState,
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(vertical = 64.dp),
-        pageSpacing = 16.dp
-    ) { page ->
-        Card(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer
-            ),
-            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-        ) {
-            Row(
-                modifier = Modifier.padding(24.dp).fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    Icons.Default.CheckCircle,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
-                )
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(
-                    text = tasks[page],
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun OverviewScreen() {
-    Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Box(
-            modifier = Modifier.size(120.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primaryContainer),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                Icons.Default.Dashboard,
-                contentDescription = null,
-                modifier = Modifier.size(64.dp),
-                tint = MaterialTheme.colorScheme.primary
-            )
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-        Text(
-            "Welcome Back!",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
-        )
-        Text(
-            "Here is your activity overview.",
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
-}
-
-@Composable
-fun UpdatesScreen() {
-    Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Icon(
-            Icons.Default.NewReleases,
-            contentDescription = null,
-            modifier = Modifier.size(64.dp),
-            tint = Color(0xFFD32F2F)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            "No New Updates",
-            style = MaterialTheme.typography.headlineSmall,
-            fontWeight = FontWeight.Bold
-        )
-        Text(
-            "Everything is up to date.",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
-}
-
 @Composable
 fun ProfileScreen() {
     Column(
@@ -408,50 +256,49 @@ fun ProfileScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
-            modifier = Modifier.size(120.dp).clip(CircleShape)
-                .background(MaterialTheme.colorScheme.primaryContainer),
+            modifier = Modifier.size(100.dp).clip(CircleShape).background(MaterialTheme.colorScheme.primaryContainer),
             contentAlignment = Alignment.Center
         ) {
-            Icon(
-                Icons.Default.Person,
-                contentDescription = null,
-                modifier = Modifier.size(80.dp),
-                tint = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            Icon(Icons.Default.Person, null, modifier = Modifier.size(64.dp), tint = MaterialTheme.colorScheme.onPrimaryContainer)
         }
-        Spacer(modifier = Modifier.height(24.dp))
-        Text(
-            "John Doe",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
-        )
-        Text(
-            "john.doe@example.com",
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Spacer(modifier = Modifier.height(40.dp))
-        OutlinedButton(
-            onClick = { /* Edit Profile */ },
-            modifier = Modifier.fillMaxWidth(),
-            shape = MaterialTheme.shapes.medium
-        ) {
-            Icon(Icons.Default.Edit, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.height(16.dp))
+        Text("John Doe", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+        Text("john.doe@example.com", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        
+        Spacer(modifier = Modifier.height(32.dp))
+        
+        ProfileOption(Icons.Default.Settings, "Account Settings")
+        ProfileOption(Icons.AutoMirrored.Filled.Help, "Help & Support")
+        
+        Spacer(modifier = Modifier.height(32.dp))
+        
+        Button(onClick = { }, modifier = Modifier.fillMaxWidth()) {
             Text("Edit Profile")
         }
-        Spacer(modifier = Modifier.height(12.dp))
-        Button(
-            onClick = { /* Logout */ },
+        Spacer(modifier = Modifier.height(8.dp))
+        OutlinedButton(
+            onClick = { },
             modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
-            shape = MaterialTheme.shapes.medium
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error)
         ) {
-            Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = null)
+            Icon(Icons.AutoMirrored.Filled.Logout, null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(8.dp))
             Text("Logout")
         }
+    }
+}
+
+@Composable
+fun ProfileOption(icon: ImageVector, label: String) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(icon, null, tint = MaterialTheme.colorScheme.primary)
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(label, style = MaterialTheme.typography.bodyLarge)
+        Spacer(modifier = Modifier.weight(1f))
+        Icon(Icons.Default.ChevronRight, null, tint = Color.Gray)
     }
 }
 
