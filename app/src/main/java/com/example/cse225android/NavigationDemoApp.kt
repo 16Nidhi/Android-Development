@@ -335,7 +335,8 @@ fun ProfileScreen() {
         Spacer(modifier = Modifier.height(32.dp))
         Button(onClick = { }, modifier = Modifier.fillMaxWidth()) { Text("Edit Profile") }
         Spacer(modifier = Modifier.height(8.dp))
-        OutlinedButton(onClick = { }, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error)) {
+        OutlinedButton(
+            onClick = { }, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error)) {
             Icon(Icons.AutoMirrored.Filled.Logout, null, modifier = Modifier.size(18.dp))
             Spacer(modifier = Modifier.width(8.dp))
             Text("Logout")
@@ -345,15 +346,21 @@ fun ProfileScreen() {
 
 @Composable
 fun ProfileOption(icon: ImageVector, label: String) {
-    Row(modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-        Icon(icon, null, tint = MaterialTheme.colorScheme.primary); Spacer(modifier = Modifier.width(16.dp))
-        Text(label, style = MaterialTheme.typography.bodyLarge); Spacer(modifier = Modifier.weight(1f))
-        Icon(Icons.Default.ChevronRight, null, tint = Color.Gray)
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            icon,
+            null,
+            tint = MaterialTheme.colorScheme.primary);
+        Spacer(modifier = Modifier.width(16.dp))
+        Text(
+            label,
+            style = MaterialTheme.typography.bodyLarge);
+        Spacer(modifier = Modifier.weight(1f))
+        Icon(
+            Icons.Default.ChevronRight,
+            null, tint = Color.Gray)
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun NavigationScreenPreview() {
-    MaterialTheme(colorScheme = AppLightColors) { NavigationScreen() }
 }
