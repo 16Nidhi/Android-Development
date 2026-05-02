@@ -69,7 +69,9 @@ fun NavigationScreen() {
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(drawerContainerColor = MaterialTheme.colorScheme.surfaceVariant) {
+
                 Spacer(modifier = Modifier.height(12.dp))
+
                 Text(
                     "Learning App",
                     modifier = Modifier.padding(16.dp),
@@ -116,10 +118,13 @@ fun NavigationScreen() {
                             Text(selectedScreen, fontWeight = FontWeight.Bold)
                         }
                     },
-                    navigationIcon = { IconButton(onClick = { scope.launch { drawerState.open() } }) { Icon(Icons.Default.Menu, "Menu") } },
+                    navigationIcon = { IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                        Icon(Icons.Default.Menu, "Menu") } },
                     actions = {
-                        IconButton(onClick = { isSearchActive = !isSearchActive; if(!isSearchActive) searchText = "" }) {
-                            Icon(if (isSearchActive) Icons.Default.Close else Icons.Default.Search, "Search")
+                        IconButton(onClick = { isSearchActive = !isSearchActive; if(!isSearchActive) searchText = "" })
+                        {
+                            Icon(if (isSearchActive) Icons.Default.Close else Icons.Default.Search,
+                                "Search")
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -155,7 +160,6 @@ fun NavigationScreen() {
         }
     }
 }
-
 @Composable
 fun HomeScreen() {
     Column(
@@ -176,6 +180,7 @@ fun HomeScreen() {
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
+
         Text(
             "Welcome Back!",
             style = MaterialTheme.typography.headlineMedium,
@@ -186,8 +191,8 @@ fun HomeScreen() {
             style = MaterialTheme.typography.bodyMedium,
             color = Color.Gray
         )
-        
         Spacer(modifier = Modifier.height(32.dp))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -195,8 +200,8 @@ fun HomeScreen() {
             StatusCard("Courses", "4", Icons.Default.Book, Modifier.weight(1f))
             StatusCard("Tasks", "12", Icons.AutoMirrored.Filled.List, Modifier.weight(1f))
         }
-        
         Spacer(modifier = Modifier.height(16.dp))
+
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
@@ -207,6 +212,7 @@ fun HomeScreen() {
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(8.dp))
+
                 LinearProgressIndicator(progress = { 0.65f },
                     modifier = Modifier.fillMaxWidth().height(8.dp).clip(CircleShape),
                     color = MaterialTheme.colorScheme.primary)
@@ -219,7 +225,6 @@ fun HomeScreen() {
         }
     }
 }
-
 @Composable
 fun StatusCard(label: String, value: String, icon: ImageVector, modifier: Modifier = Modifier) {
     Card(
@@ -234,6 +239,7 @@ fun StatusCard(label: String, value: String, icon: ImageVector, modifier: Modifi
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
+
             Text(
                 value,
                 style = MaterialTheme.typography.titleLarge,
@@ -246,14 +252,21 @@ fun StatusCard(label: String, value: String, icon: ImageVector, modifier: Modifi
         }
     }
 }
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CoursePager() {
-    val courses = listOf(CourseData("Android Development", "Learn Kotlin and Compose", Color(0xFF006782)), CourseData("Web Development", "Master HTML, CSS, and JS", Color(0xFF8B4100)), CourseData("AI & ML", "Explore Data Science", Color(0xFF4B6200)))
+    val courses = listOf(
+        CourseData("Android Development", "Learn Kotlin and Compose", Color(0xFF006782)),
+        CourseData("Web Development", "Master HTML, CSS, and JS", Color(0xFF8B4100)),
+        CourseData("AI & ML", "Explore Data Science", Color(0xFF4B6200)))
+
     val pagerState = rememberPagerState(pageCount = { courses.size })
 
-    HorizontalPager(state = pagerState, contentPadding = PaddingValues(horizontal = 48.dp), pageSpacing = 16.dp, modifier = Modifier.fillMaxSize()) { page ->
+    HorizontalPager(
+        state = pagerState,
+        contentPadding = PaddingValues(horizontal = 48.dp),
+        pageSpacing = 16.dp, modifier = Modifier.fillMaxSize()
+    ) { page ->
         val course = courses[page]
         Card(
             modifier = Modifier.fillMaxWidth().height(380.dp).padding(vertical = 32.dp),
@@ -272,6 +285,7 @@ fun CoursePager() {
                     tint = course.color
                 )
                 Spacer(modifier = Modifier.height(24.dp))
+
                 Text(
                     text = course.title,
                     style = MaterialTheme.typography.titleLarge,
@@ -289,12 +303,12 @@ fun CoursePager() {
                 Button(
                     onClick = { },
                     colors = ButtonDefaults.buttonColors(containerColor = course.color)
-                ) { Text("View Course") }
+                )
+                { Text("View Course") }
             }
         }
     }
 }
-
 data class CourseData(val title: String, val description: String, val color: Color)
 
 @Composable
@@ -332,18 +346,30 @@ fun ProfileScreen() {
 
         ProfileOption(Icons.Default.Settings, "Account Settings")
         ProfileOption(Icons.AutoMirrored.Filled.Help, "Help & Support")
+
         Spacer(modifier = Modifier.height(32.dp))
-        Button(onClick = { }, modifier = Modifier.fillMaxWidth()) { Text("Edit Profile") }
+
+        Button(onClick = { },
+            modifier = Modifier.fillMaxWidth()
+        )
+        { Text("Edit Profile") }
+
         Spacer(modifier = Modifier.height(8.dp))
-        OutlinedButton(
-            onClick = { }, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error)) {
-            Icon(Icons.AutoMirrored.Filled.Logout, null, modifier = Modifier.size(18.dp))
+
+        OutlinedButton(onClick = { },
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = MaterialTheme.colorScheme.error)
+        ) {
+            Icon(
+                Icons.AutoMirrored.Filled.Logout,
+                null, modifier = Modifier.size(18.dp)
+            )
             Spacer(modifier = Modifier.width(8.dp))
+
             Text("Logout")
         }
     }
 }
-
 @Composable
 fun ProfileOption(icon: ImageVector, label: String) {
     Row(
@@ -353,14 +379,19 @@ fun ProfileOption(icon: ImageVector, label: String) {
         Icon(
             icon,
             null,
-            tint = MaterialTheme.colorScheme.primary);
+            tint = MaterialTheme.colorScheme.primary
+        );
         Spacer(modifier = Modifier.width(16.dp))
+
         Text(
             label,
-            style = MaterialTheme.typography.bodyLarge);
+            style = MaterialTheme.typography.bodyLarge
+        );
         Spacer(modifier = Modifier.weight(1f))
+
         Icon(
             Icons.Default.ChevronRight,
-            null, tint = Color.Gray)
+            null, tint = Color.Gray
+        )
     }
 }
