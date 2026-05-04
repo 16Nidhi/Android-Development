@@ -36,18 +36,14 @@ class RuntimePermissionExample : ComponentActivity() {
         }
     }
 }
-
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CameraPermissionScreen() {
     val cameraPermissionState = rememberPermissionState(
         permission = Manifest.permission.CAMERA
     )
-
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
+        modifier = Modifier.fillMaxSize().padding(24.dp),
         contentAlignment = Alignment.Center
     ) {
         ElevatedCard(
@@ -58,9 +54,7 @@ fun CameraPermissionScreen() {
             )
         ) {
             Column(
-                modifier = Modifier
-                    .padding(32.dp)
-                    .fillMaxWidth(),
+                modifier = Modifier.padding(32.dp).fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -142,10 +136,3 @@ fun PermissionUIContent(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewCameraPermissionScreen() {
-    CSE225AndroidTheme {
-        CameraPermissionScreen()
-    }
-}
