@@ -68,9 +68,7 @@ fun CameraPermissionScreen() {
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {}
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
+        modifier = Modifier.fillMaxSize().padding(24.dp),
         contentAlignment = Alignment.Center
     ) {
         ElevatedCard(
@@ -81,9 +79,7 @@ fun CameraPermissionScreen() {
             )
         ) {
             Column(
-                modifier = Modifier
-                    .padding(32.dp)
-                    .fillMaxWidth(),
+                modifier = Modifier.padding(32.dp).fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
@@ -98,7 +94,6 @@ fun CameraPermissionScreen() {
                             tint = MaterialTheme.colorScheme.primary
                         )
                     }
-
                     cameraPermissionState.status.shouldShowRationale -> {
                         PermissionUIContent(
                             icon = Icons.Default.Info,
@@ -164,6 +159,7 @@ fun PermissionUIContent(
         tint = tint
     )
     Spacer(modifier = Modifier.height(24.dp))
+
     Text(
         text = title,
         style = MaterialTheme.typography.headlineSmall,
@@ -171,6 +167,7 @@ fun PermissionUIContent(
         textAlign = TextAlign.Center
     )
     Spacer(modifier = Modifier.height(12.dp))
+
     Text(
         text = description,
         style = MaterialTheme.typography.bodyLarge,
@@ -186,13 +183,5 @@ fun PermissionUIContent(
         ) {
             Text(text = buttonText)
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewCameraPermissionScreen() {
-    CSE225AndroidTheme {
-        CameraPermissionScreen()
     }
 }
