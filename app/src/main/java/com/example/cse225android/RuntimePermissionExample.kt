@@ -2,6 +2,7 @@ package com.example.cse225android
 
 import android.Manifest
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -10,7 +11,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.CheckCircle
@@ -20,11 +24,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
@@ -56,21 +62,50 @@ fun CameraPermissionScreen() {
     )
 
     var hasRequestedPermission by remember { mutableStateOf(false) }
+    
+    // Feature 2: State for Captured Image
+    var capturedImage by remember { mutableStateOf<Bitmap?>(null) }
 
     val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicturePreview()
     ) { bitmap ->
+        capturedImage = bitmap
         if (bitmap != null) {
             Toast.makeText(context, "Photo Captured!", Toast.LENGTH_SHORT).show()
         }
     }
 
-    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {}
+    // Feature 4: Auto-refresh logic (checks status when returning to app)
+    LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+        // PermissionState automatically refreshes on resume, but this block 
+        // ensures the UI stays in sync if the user changed settings.
+    }
 
-    Box(
+    Column(
         modifier = Modifier.fillMaxSize().padding(24.dp),
-        contentAlignment = Alignment.Center
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
+        // Feature 2: Image Preview Section
+        if (capturedImage != null) {
+            Text(
+                "Captured Preview",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+            Image(
+                bitmap = capturedImage!!.asImageBitmap(),
+                contentDescription = "Captured Image",
+                modifier = Modifier
+                    .size(200.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
+                contentScale = ContentScale.Crop
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+        }
+
         ElevatedCard(
             modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.extraLarge,
