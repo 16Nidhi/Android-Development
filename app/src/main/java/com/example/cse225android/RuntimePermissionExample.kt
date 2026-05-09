@@ -62,8 +62,7 @@ fun CameraPermissionScreen() {
     )
 
     var hasRequestedPermission by remember { mutableStateOf(false) }
-    
-    // Feature 2: State for Captured Image
+
     var capturedImage by remember { mutableStateOf<Bitmap?>(null) }
 
     val cameraLauncher = rememberLauncherForActivityResult(
@@ -71,14 +70,13 @@ fun CameraPermissionScreen() {
     ) { bitmap ->
         capturedImage = bitmap
         if (bitmap != null) {
-            Toast.makeText(context, "Photo Captured!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Photo Captured!",
+                Toast.LENGTH_SHORT).show()
         }
     }
 
-    // Feature 4: Auto-refresh logic (checks status when returning to app)
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
-        // PermissionState automatically refreshes on resume, but this block 
-        // ensures the UI stays in sync if the user changed settings.
+
     }
 
     Column(
@@ -86,7 +84,7 @@ fun CameraPermissionScreen() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // Feature 2: Image Preview Section
+
         if (capturedImage != null) {
             Text(
                 "Captured Preview",
@@ -97,9 +95,7 @@ fun CameraPermissionScreen() {
             Image(
                 bitmap = capturedImage!!.asImageBitmap(),
                 contentDescription = "Captured Image",
-                modifier = Modifier
-                    .size(200.dp)
-                    .clip(RoundedCornerShape(16.dp))
+                modifier = Modifier.size(200.dp).clip(RoundedCornerShape(16.dp))
                     .background(MaterialTheme.colorScheme.surfaceVariant),
                 contentScale = ContentScale.Crop
             )
