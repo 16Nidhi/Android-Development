@@ -20,9 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CSE225Android">
         <activity
-            android:name=".ACTIVITY9"
+            android:name=".ACTIVITY10"
             android:exported="true"
-            android:label="@string/title_activity_9"
+            android:label="@string/title_activity_10"
             android:theme="@style/Theme.CSE225Android">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,6 +30,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ACTIVITY9"
+            android:exported="false"
+            android:label="@string/title_activity_9"
+            android:theme="@style/Theme.CSE225Android"/>
         <activity
             android:name=".ACTIVITY8"
             android:exported="false"
@@ -39,8 +44,7 @@
             android:name=".NavigationDemoApp"
             android:exported="false"
             android:label="@string/title_activity_navigation_demo_app"
-            android:theme="@style/Theme.CSE225Android"></activity>
-
+            android:theme="@style/Theme.CSE225Android" />
         <activity
             android:name=".ACTIVITY7"
             android:exported="false"
