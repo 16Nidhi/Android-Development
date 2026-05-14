@@ -31,17 +31,15 @@ class ACTIVITY9 : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CSE225AndroidTheme {
-                SmartLearningAppMain()
+                SmartLearningApp()
             }
         }
     }
 }
-
 @Composable
-fun SmartLearningAppMain() {
+fun SmartLearningApp() {
     var showSplash by remember { mutableStateOf(true) }
 
-    // Crossfade for smooth transition between splash and home
     Crossfade(targetState = showSplash, label = "ScreenTransition") { isSplash ->
         if (isSplash) {
             SplashScreenUI(onTimeout = { showSplash = false })
@@ -53,20 +51,17 @@ fun SmartLearningAppMain() {
 
 @Composable
 fun SplashScreenUI(onTimeout: () -> Unit) {
-    // Navigate after 3 seconds
     LaunchedEffect(Unit) {
         delay(3000)
         onTimeout()
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
             .background(MaterialTheme.colorScheme.primaryContainer),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // 1. One Image (Logo)
         Icon(
             imageVector = Icons.Default.School,
             contentDescription = "App Logo",
@@ -74,8 +69,7 @@ fun SplashScreenUI(onTimeout: () -> Unit) {
             tint = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(16.dp))
-        
-        // 2. Smart Learning App Text
+
         Text(
             text = "Smart Learning App",
             style = MaterialTheme.typography.headlineMedium,
@@ -83,16 +77,14 @@ fun SplashScreenUI(onTimeout: () -> Unit) {
             color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(32.dp))
-        
-        // 3. Circular Progress Bar
+
         CircularProgressIndicator(
             modifier = Modifier.size(50.dp),
             color = MaterialTheme.colorScheme.primary,
             strokeWidth = 4.dp
         )
         Spacer(modifier = Modifier.height(12.dp))
-        
-        // 4. Loading Text
+
         Text(
             text = "Loading...",
             style = MaterialTheme.typography.bodyMedium,
@@ -106,7 +98,6 @@ fun SplashScreenUI(onTimeout: () -> Unit) {
 fun HomeAppUI() {
     Scaffold(
         topBar = {
-            // Nav bar / Menu bar
             CenterAlignedTopAppBar(
                 title = { Text("Smart Learning", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
@@ -123,20 +114,26 @@ fun HomeAppUI() {
         }
     ) { padding ->
         Column(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxSize()
+            modifier = Modifier.padding(padding).fillMaxSize()
                 .padding(16.dp)
         ) {
-            // Select Category Spinner (Dropdown)
-            Text("Select Category", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+
+            Text(
+                "Select Category",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
             Spacer(modifier = Modifier.height(8.dp))
+
             CategoryDropdown()
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Popular Courses
-            Text("Popular Courses", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Text(
+                "Popular Courses",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
             Spacer(modifier = Modifier.height(12.dp))
             
             CourseProgressCard(name = "Android Development with Kotlin", rating = 4.8f, progress = 0.75f)
@@ -144,14 +141,17 @@ fun HomeAppUI() {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Featured Technologies Horizontal List
-            Text("Featured Technologies", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+            Text(
+                "Featured Technologies",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
             Spacer(modifier = Modifier.height(12.dp))
+
             FeaturedTechnologiesList()
         }
     }
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryDropdown() {
@@ -193,50 +193,46 @@ fun CategoryDropdown() {
 @Composable
 fun CourseProgressCard(name: String, rating: Float, progress: Float) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
+        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(name, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            Text(
+                name,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
             Spacer(modifier = Modifier.height(8.dp))
-            
-            // Rating Bar (Star display)
+
             Row(verticalAlignment = Alignment.CenterVertically) {
                 repeat(5) { index ->
                     Icon(
-                        imageVector = if (index < rating.toInt()) Icons.Default.Star else Icons.Default.StarBorder,
+                        imageVector = if (index < rating.toInt())
+                            Icons.Default.Star else Icons.Default.StarBorder,
                         contentDescription = null,
                         tint = if (index < rating.toInt()) Color(0xFFFFC107) else Color.Gray,
                         modifier = Modifier.size(20.dp)
                     )
                 }
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "$rating", style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    text = "$rating",
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Linear Progress Bar with Percent Inside
             Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(26.dp)
-                    .clip(CircleShape)
+                modifier = Modifier.fillMaxWidth().height(26.dp) .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.surfaceVariant),
                 contentAlignment = Alignment.CenterStart
             ) {
-                // Progress Fill
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth(progress)
-                        .fillMaxHeight()
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primary)
+                    modifier = Modifier.fillMaxWidth(progress).fillMaxHeight()
+                        .clip(CircleShape).background(MaterialTheme.colorScheme.primary)
                 )
-                // Percent display inside center
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     Text(
                         text = "${(progress * 100).toInt()}%",
@@ -267,9 +263,7 @@ fun FeaturedTechnologiesList() {
         items(technologies) { tech ->
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .width(100.dp)
-                    .clip(RoundedCornerShape(12.dp))
+                modifier = Modifier.width(100.dp).clip(RoundedCornerShape(12.dp))
                     .background(MaterialTheme.colorScheme.secondaryContainer)
                     .padding(12.dp)
             ) {
@@ -285,13 +279,4 @@ fun FeaturedTechnologiesList() {
         }
     }
 }
-
 data class TechItem(val name: String, val icon: ImageVector)
-
-@Preview(showBackground = true)
-@Composable
-fun SmartLearningPreview() {
-    CSE225AndroidTheme {
-        SmartLearningAppMain()
-    }
-}
