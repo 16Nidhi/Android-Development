@@ -20,10 +20,9 @@ import kotlinx.coroutines.launch
 class ACTIVITY10 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             CSE225AndroidTheme {
-                Activity10MainScreen()
+                MainScreen()
             }
         }
     }
@@ -31,7 +30,7 @@ class ACTIVITY10 : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Activity10MainScreen() {
+fun MainScreen() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     var selectedDrawerItem by remember { mutableStateOf("Home") }
@@ -70,9 +69,7 @@ fun Activity10MainScreen() {
             }
         ) { innerPadding ->
             Column(
-                modifier = Modifier
-                    .padding(innerPadding)
-                    .fillMaxSize()
+                modifier = Modifier.padding(innerPadding).fillMaxSize()
             ) {
                 if (selectedDrawerItem == "Home") {
                     Box(modifier = Modifier.weight(1f)) {
@@ -80,13 +77,17 @@ fun Activity10MainScreen() {
                     }
 
                     Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
+                        modifier = Modifier.fillMaxWidth().padding(16.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(text = "Home", style = MaterialTheme.typography.headlineMedium)
-                        Text(text = "This is home section", style = MaterialTheme.typography.bodyLarge)
+                        Text(
+                            text = "Home",
+                            style = MaterialTheme.typography.headlineMedium
+                        )
+                        Text(
+                            text = "This is home section",
+                            style = MaterialTheme.typography.bodyLarge
+                        )
                     }
                 } else {
 
@@ -95,8 +96,14 @@ fun Activity10MainScreen() {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
-                        Text(text = selectedDrawerItem.lowercase(), style = MaterialTheme.typography.headlineMedium)
-                        Text(text = "this is ${selectedDrawerItem.lowercase()} section", style = MaterialTheme.typography.bodyLarge)
+                        Text(
+                            text = selectedDrawerItem.lowercase(),
+                            style = MaterialTheme.typography.headlineMedium
+                        )
+                        Text(
+                            text = "this is ${selectedDrawerItem.lowercase()} section",
+                            style = MaterialTheme.typography.bodyLarge
+                        )
                     }
                 }
             }
@@ -135,8 +142,14 @@ fun HomePagerSection() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                Text(text = "welcome ${tabName.lowercase()}", style = MaterialTheme.typography.headlineSmall)
-                Text(text = "this is ${tabName.lowercase()} page", style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    text = "welcome ${tabName.lowercase()}",
+                    style = MaterialTheme.typography.headlineSmall
+                )
+                Text(
+                    text = "this is ${tabName.lowercase()} page",
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
         }
     }
