@@ -28,7 +28,6 @@ import kotlinx.coroutines.launch
 class ACTIVITY10 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             CSE225AndroidTheme {
                 MainScreen()
@@ -44,7 +43,7 @@ data class DrawerItemData(val label: String, val icon: ImageVector)
 fun MainScreen() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    // Initial state is "Dashboard" - This displays the pager with welcome messages only.
+
     var selectedDrawerItem by remember { mutableStateOf("Dashboard") }
 
     val drawerItems = listOf(
