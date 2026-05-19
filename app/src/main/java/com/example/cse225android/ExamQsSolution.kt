@@ -42,7 +42,6 @@ import kotlinx.coroutines.launch
 class ExamQsSolution : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             CSE225AndroidTheme {
                 var showSplash by remember { mutableStateOf(true) }
@@ -93,7 +92,11 @@ fun MainAppContent() {
                 NavigationDrawerItem(
                     label = { Text("Home") },
                     selected = selectedScreen == "Home",
-                    icon = { Icon(Icons.Default.Home, contentDescription = null) },
+                    icon = {
+                        Icon(
+                            Icons.Default.Home,
+                            contentDescription = null
+                        ) },
                     onClick = {
                         selectedScreen = "Home"
                         scope.launch { drawerState.close() }
@@ -102,7 +105,11 @@ fun MainAppContent() {
                 NavigationDrawerItem(
                     label = { Text("Profile") },
                     selected = selectedScreen == "Profile",
-                    icon = { Icon(Icons.Default.Person, contentDescription = null) },
+                    icon = {
+                        Icon(
+                            Icons.Default.Person,
+                            contentDescription = null
+                        ) },
                     onClick = {
                         selectedScreen = "Profile"
                         scope.launch { drawerState.close() }
@@ -111,7 +118,11 @@ fun MainAppContent() {
                 NavigationDrawerItem(
                     label = { Text("Settings") },
                     selected = selectedScreen == "Settings",
-                    icon = { Icon(Icons.Default.Settings, contentDescription = null) },
+                    icon = {
+                        Icon(
+                        Icons.Default.Settings,
+                        contentDescription = null
+                    ) },
                     onClick = {
                         selectedScreen = "Settings"
                         scope.launch { drawerState.close() }
@@ -126,7 +137,10 @@ fun MainAppContent() {
                     title = { Text(selectedScreen) },
                     navigationIcon = {
                         IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                            Icon(Icons.Default.Menu, contentDescription = "Open Drawer")
+                            Icon(
+                                Icons.Default.Menu,
+                                contentDescription = "Open Drawer"
+                            )
                         }
                     }
                 )
@@ -142,13 +156,5 @@ fun MainAppContent() {
                 )
             }
         }
-    }
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview8() {
-    CSE225AndroidTheme {
     }
 }
