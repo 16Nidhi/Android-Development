@@ -27,7 +27,6 @@ import kotlinx.coroutines.launch
 class ExamQsSolution : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             CSE225AndroidTheme {
                 var showSplash by remember { mutableStateOf(true) }
@@ -41,7 +40,6 @@ class ExamQsSolution : ComponentActivity() {
         }
     }
 }
-
 @Composable
 fun SplashScreen1(onFinished: () -> Unit) {
     LaunchedEffect(key1 = true) {
@@ -49,11 +47,12 @@ fun SplashScreen1(onFinished: () -> Unit) {
         onFinished()
     }
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
+        modifier = Modifier.fillMaxSize().background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.primaryContainer)
+                    colors = listOf(
+                        MaterialTheme.colorScheme.primary,
+                        MaterialTheme.colorScheme.primaryContainer
+                    )
                 )
             ),
         contentAlignment = Alignment.Center
@@ -75,7 +74,6 @@ fun SplashScreen1(onFinished: () -> Unit) {
         }
     }
 }
-
 data class DrawerItem(val label: String, val icon: ImageVector)
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,10 +81,8 @@ data class DrawerItem(val label: String, val icon: ImageVector)
 fun MainAppContent() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    // Initial state is Dashboard
     var selectedScreen by remember { mutableStateOf("Dashboard") }
 
-    // Navigation items: Home, Profile, Settings as requested
     val drawerItems = listOf(
         DrawerItem("Home", Icons.Default.Home),
         DrawerItem("Profile", Icons.Default.Person),
@@ -97,12 +93,8 @@ fun MainAppContent() {
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                // Stylish Drawer Header
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(180.dp)
-                        .background(
+                    modifier = Modifier.fillMaxWidth().height(180.dp).background(
                             brush = Brush.verticalGradient(
                                 colors = listOf(
                                     MaterialTheme.colorScheme.primaryContainer,
@@ -113,6 +105,7 @@ fun MainAppContent() {
                     contentAlignment = Alignment.BottomStart
                 ) {
                     Column(modifier = Modifier.padding(24.dp)) {
+
                         Surface(
                             shape = CircleShape,
                             color = MaterialTheme.colorScheme.primary,
@@ -128,6 +121,7 @@ fun MainAppContent() {
                             }
                         }
                         Spacer(modifier = Modifier.height(12.dp))
+
                         Text(
                             text = "Solutions App",
                             style = MaterialTheme.typography.titleLarge,
@@ -135,11 +129,8 @@ fun MainAppContent() {
                         )
                     }
                 }
-                
+
                 Spacer(modifier = Modifier.height(8.dp))
-                
-                // Dashboard is not in the list but we can add it as a fixed item if needed, 
-                // or just keep the 3 requested items.
                 drawerItems.forEach { item ->
                     NavigationDrawerItem(
                         icon = { Icon(item.icon, contentDescription = null) },
@@ -190,7 +181,6 @@ fun MainAppContent() {
         }
     }
 }
-
 @Composable
 fun DashboardScreen() {
     Box(
@@ -198,10 +188,7 @@ fun DashboardScreen() {
         contentAlignment = Alignment.Center
     ) {
         ElevatedCard(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(32.dp)
-                .height(200.dp),
+            modifier = Modifier.fillMaxWidth().padding(32.dp).height(200.dp),
             shape = RoundedCornerShape(24.dp)
         ) {
             Column(
@@ -227,7 +214,6 @@ fun DashboardScreen() {
 
 @Composable
 fun SectionContent(name: String, icon: ImageVector) {
-    // Corrected spelling to "home"
     val sectionLabel = name.lowercase()
     
     Column(
@@ -250,6 +236,7 @@ fun SectionContent(name: String, icon: ImageVector) {
             }
         }
         Spacer(modifier = Modifier.height(24.dp))
+
         Text(
             text = name.lowercase(),
             style = MaterialTheme.typography.headlineLarge,
@@ -257,6 +244,7 @@ fun SectionContent(name: String, icon: ImageVector) {
             color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(8.dp))
+
         Text(
             text = "this is $sectionLabel section",
             style = MaterialTheme.typography.bodyLarge,
