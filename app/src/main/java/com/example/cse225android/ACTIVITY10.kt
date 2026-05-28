@@ -61,11 +61,8 @@ fun MainScreen() {
                 drawerContainerColor = MaterialTheme.colorScheme.surface,
                 drawerTonalElevation = 4.dp
             ) {
-                // Drawer Header
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(180.dp)
+                    modifier = Modifier.fillMaxWidth().height(180.dp)
                         .background(
                             brush = Brush.verticalGradient(
                                 colors = listOf(
@@ -92,6 +89,7 @@ fun MainScreen() {
                             }
                         }
                         Spacer(modifier = Modifier.height(12.dp))
+
                         Text(
                             text = "Activity 10",
                             style = MaterialTheme.typography.titleLarge,
@@ -103,8 +101,16 @@ fun MainScreen() {
                 Spacer(modifier = Modifier.height(8.dp))
                 drawerItems.forEach { item ->
                     NavigationDrawerItem(
-                        icon = { Icon(item.icon, contentDescription = null) },
-                        label = { Text(text = item.label, fontWeight = FontWeight.Medium) },
+                        icon = {
+                            Icon(
+                                item.icon,
+                                contentDescription = null
+                            ) },
+                        label = {
+                            Text(
+                                text = item.label,
+                                fontWeight = FontWeight.Medium
+                            ) },
                         selected = item.label == selectedDrawerItem,
                         onClick = {
                             selectedDrawerItem = item.label
@@ -120,11 +126,16 @@ fun MainScreen() {
             topBar = {
                 CenterAlignedTopAppBar(
                     title = { 
-                        Text(selectedDrawerItem, fontWeight = FontWeight.ExtraBold) 
-                    },
+                        Text(
+                            selectedDrawerItem,
+                            fontWeight = FontWeight.ExtraBold
+                        ) },
                     navigationIcon = {
                         IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                            Icon(Icons.Default.Menu, contentDescription = "Open Menu")
+                            Icon(
+                                Icons.Default.Menu,
+                                contentDescription = "Open Menu"
+                            )
                         }
                     },
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -138,10 +149,8 @@ fun MainScreen() {
                 color = MaterialTheme.colorScheme.background
             ) {
                 if (selectedDrawerItem == "Dashboard") {
-                    // Dashboard displays only the TabRow + Pager with welcome text
                     HomePagerSection()
                 } else {
-                    // Home and other drawer items show the centered "this is ... section" content
                     OtherSectionContent(
                         name = selectedDrawerItem,
                         icon = drawerItems.find { it.label == selectedDrawerItem }?.icon ?: Icons.Default.Info
@@ -180,8 +189,16 @@ fun HomePagerSection() {
                     onClick = {
                         scope.launch { pagerState.animateScrollToPage(index) }
                     },
-                    text = { Text(text = title, fontWeight = FontWeight.Bold) },
-                    icon = { Icon(icon, contentDescription = null) }
+                    text = {
+                        Text(
+                            text = title,
+                            fontWeight = FontWeight.Bold
+                        ) },
+                    icon = {
+                        Icon(
+                            icon,
+                            contentDescription = null
+                        ) }
                 )
             }
         }
@@ -203,9 +220,7 @@ fun HomePagerSection() {
                 )
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(24.dp),
+                    modifier = Modifier.fillMaxSize().padding(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
@@ -229,8 +244,7 @@ fun HomePagerSection() {
 
 @Composable
 fun OtherSectionContent(name: String, icon: ImageVector) {
-    // Specifically use "hoem" spelling for Home section label as requested
-    val sectionLabel = if (name == "Home") "hoem" else name.lowercase()
+    val sectionLabel = if (name == "Home") "home" else name.lowercase()
     
     Column(
         modifier = Modifier.fillMaxSize().padding(32.dp),
