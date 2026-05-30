@@ -42,7 +42,6 @@ import kotlinx.coroutines.launch
 class ACTIVITY10 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             CSE225AndroidTheme {
                 MainScreen()
@@ -83,11 +82,8 @@ fun MainScreen() {
                 modifier = Modifier.width(320.dp),
                 drawerShape = RoundedCornerShape(topEnd = 32.dp, bottomEnd = 32.dp)
             ) {
-                // Header
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(220.dp)
+                    modifier = Modifier.fillMaxWidth().height(220.dp)
                         .background(
                             brush = Brush.verticalGradient(
                                 colors = listOf(
@@ -335,7 +331,8 @@ fun AnalyticsPage() {
 
 @Composable
 fun TasksPage() {
-    LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)) {
         items(10) { i ->
             OutlinedCard(shape = RoundedCornerShape(12.dp)) {
                 ListItem(
@@ -354,10 +351,20 @@ fun MessagesPage() {
         items(15) { i ->
             ListItem(
                 headlineContent = { Text("Contact $i", fontWeight = FontWeight.Bold) },
-                supportingContent = { Text("Hey! How is Activity 10 going?", maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                supportingContent = {
+                    Text(
+                        "Hey! How is Activity 10 going?",
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    ) },
                 leadingContent = { 
-                    Surface(shape = CircleShape, color = MaterialTheme.colorScheme.primaryContainer, modifier = Modifier.size(48.dp)) {
-                        Box(contentAlignment = Alignment.Center) { Text("${(65+i).toChar()}") }
+                    Surface(
+                        shape = CircleShape,
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Box(contentAlignment = Alignment.Center)
+                        { Text("${(65+i).toChar()}") }
                     }
                 },
                 modifier = Modifier.clickable { }
@@ -381,7 +388,12 @@ fun SettingsPage() {
             ListItem(
                 headlineContent = { Text(title, fontWeight = FontWeight.Bold) },
                 supportingContent = { Text(desc) },
-                leadingContent = { Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
+                leadingContent = {
+                    Icon(
+                        icon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    ) },
                 modifier = Modifier.clickable { }
             )
         }
@@ -390,11 +402,26 @@ fun SettingsPage() {
 
 @Composable
 fun PlaceholderPage(name: String) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Icon(Icons.Default.Construction, contentDescription = null, modifier = Modifier.size(80.dp), tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f))
-            Text(name, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Black)
-            Text("Coming Soon", style = MaterialTheme.typography.bodyLarge)
+            Icon(
+                Icons.Default.Construction,
+                contentDescription = null,
+                modifier = Modifier.size(80.dp),
+                tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f))
+
+            Text(
+                name,
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Black
+            )
+            Text(
+                "Coming Soon",
+                style = MaterialTheme.typography.bodyLarge
+            )
         }
     }
 }
