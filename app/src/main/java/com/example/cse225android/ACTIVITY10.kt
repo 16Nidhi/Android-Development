@@ -136,7 +136,11 @@ fun MainScreen() {
                                 contentDescription = null
                             )
                         },
-                        label = { Text(text = item.label, fontWeight = FontWeight.SemiBold) },
+                        label = {
+                            Text(
+                                text = item.label,
+                                fontWeight = FontWeight.SemiBold
+                            ) },
                         selected = selectedRoute == item.label,
                         onClick = {
                             selectedRoute = item.label
@@ -167,16 +171,25 @@ fun MainScreen() {
                     },
                     navigationIcon = {
                         IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                            Icon(Icons.Default.Menu, contentDescription = "Menu")
+                            Icon(
+                                Icons.Default.Menu,
+                                contentDescription = "Menu"
+                            )
                         }
                     },
                     actions = {
                         IconButton(onClick = { }) {
-                            Icon(Icons.Default.Search, contentDescription = "Search")
+                            Icon(
+                                Icons.Default.Search,
+                                contentDescription = "Search"
+                            )
                         }
                         IconButton(onClick = { }) {
                             BadgedBox(badge = { Badge { Text("5") } }) {
-                                Icon(Icons.Default.Notifications, contentDescription = "Notifications")
+                                Icon(
+                                    Icons.Default.Notifications,
+                                    contentDescription = "Notifications"
+                                )
                             }
                         }
                     },
@@ -187,8 +200,13 @@ fun MainScreen() {
                 if (selectedRoute == "Home" || selectedRoute == "Tasks") {
                     ExtendedFloatingActionButton(
                         onClick = { },
-                        icon = { Icon(Icons.Default.Add, contentDescription = null) },
+                        icon = {
+                            Icon(
+                                Icons.Default.Add,
+                                contentDescription = null
+                            ) },
                         text = { Text("New Action") },
+
                         containerColor = MaterialTheme.colorScheme.primary,
                         contentColor = MaterialTheme.colorScheme.onPrimary,
                         shape = RoundedCornerShape(16.dp)
@@ -275,8 +293,14 @@ fun HomePage() {
                                     containerColor = if (i % 2 == 0) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.secondaryContainer
                                 )
                             ) {
-                                Box(modifier = Modifier.fillMaxSize().padding(16.dp), contentAlignment = Alignment.Center) {
-                                    Text("Metric $i", fontWeight = FontWeight.Black)
+                                Box(
+                                    modifier = Modifier.fillMaxSize().padding(16.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        "Metric $i",
+                                        fontWeight = FontWeight.Black
+                                    )
                                 }
                             }
                         }
@@ -293,15 +317,26 @@ fun HomePage() {
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Box(
-                                modifier = Modifier.size(40.dp).clip(CircleShape).background(MaterialTheme.colorScheme.tertiaryContainer),
+                                modifier = Modifier.size(40.dp).clip(CircleShape)
+                                    .background(MaterialTheme.colorScheme.tertiaryContainer),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Icon(Icons.Default.Star, contentDescription = null, tint = MaterialTheme.colorScheme.onTertiaryContainer)
+                                Icon(
+                                    Icons.Default.Star,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onTertiaryContainer
+                                )
                             }
                             Spacer(modifier = Modifier.width(16.dp))
                             Column {
-                                Text("Feed Item $index", fontWeight = FontWeight.Bold)
-                                Text("This is a description for the item.", style = MaterialTheme.typography.bodySmall)
+                                Text(
+                                    "Feed Item $index",
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Text(
+                                    "This is a description for the item.",
+                                    style = MaterialTheme.typography.bodySmall
+                                )
                             }
                         }
                     }
@@ -313,16 +348,26 @@ fun HomePage() {
 
 @Composable
 fun AnalyticsPage() {
-    LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+    LazyColumn(modifier = Modifier.fillMaxSize().padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
         item {
-            Text("Analytics", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Black)
+            Text(
+                "Analytics",
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Black
+            )
         }
         items(5) { i ->
             ListItem(
                 headlineContent = { Text("Data Point $i", fontWeight = FontWeight.Bold) },
                 supportingContent = { Text("Analysis group $i details.") },
                 trailingContent = { Text("+${(i+1)*5}%", color = Color(0xFF4CAF50), fontWeight = FontWeight.Bold) },
-                leadingContent = { Icon(Icons.AutoMirrored.Filled.TrendingUp, contentDescription = null) }
+                leadingContent = {
+                    Icon(
+                        Icons.AutoMirrored.Filled.TrendingUp,
+                        contentDescription = null
+                    ) }
             )
             HorizontalDivider()
         }
