@@ -49,8 +49,6 @@ class ACTIVITY10 : ComponentActivity() {
         }
     }
 }
-
-
 data class NavItem(
     val label: String,
     val selectedIcon: ImageVector,
@@ -68,11 +66,33 @@ fun MainScreen() {
     var selectedRoute by remember { mutableStateOf("Home") }
 
     val navItems = listOf(
-        NavItem("Home", Icons.Filled.Home, Icons.Outlined.Home),
-        NavItem("Analytics", Icons.AutoMirrored.Filled.TrendingUp, Icons.AutoMirrored.Outlined.TrendingUp),
-        NavItem("Tasks", Icons.AutoMirrored.Filled.List, Icons.AutoMirrored.Outlined.List, 4),
-        NavItem("Messages", Icons.Filled.Email, Icons.Outlined.Email, 12),
-        NavItem("Settings", Icons.Filled.Settings, Icons.Outlined.Settings)
+        NavItem(
+            "Home",
+            Icons.Filled.Home,
+            Icons.Outlined.Home
+        ),
+        NavItem(
+            "Analytics",
+            Icons.AutoMirrored.Filled.TrendingUp,
+            Icons.AutoMirrored.Outlined.TrendingUp
+        ),
+        NavItem(
+            "Tasks",
+            Icons.AutoMirrored.Filled.List,
+            Icons.AutoMirrored.Outlined.List,
+            4
+        ),
+        NavItem(
+            "Messages",
+            Icons.Filled.Email,
+            Icons.Outlined.Email,
+            12
+        ),
+        NavItem(
+            "Settings",
+            Icons.Filled.Settings,
+            Icons.Outlined.Settings
+        )
     )
 
     ModalNavigationDrawer(
@@ -111,6 +131,7 @@ fun MainScreen() {
                                 )
                             }
                         }
+
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
                             text = "CSE 225 Android",
@@ -132,7 +153,8 @@ fun MainScreen() {
                     NavigationDrawerItem(
                         icon = {
                             Icon(
-                                if (selectedRoute == item.label) item.selectedIcon else item.unselectedIcon,
+                                if (selectedRoute == item.label) item.selectedIcon
+                                else item.unselectedIcon,
                                 contentDescription = null
                             )
                         },
@@ -290,7 +312,8 @@ fun HomePage() {
                                 modifier = Modifier.width(150.dp).height(100.dp),
                                 shape = RoundedCornerShape(20.dp),
                                 colors = CardDefaults.cardColors(
-                                    containerColor = if (i % 2 == 0) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.secondaryContainer
+                                    containerColor = if (i % 2 == 0) MaterialTheme.colorScheme.primaryContainer
+                                    else MaterialTheme.colorScheme.secondaryContainer
                                 )
                             ) {
                                 Box(
@@ -327,6 +350,7 @@ fun HomePage() {
                                     tint = MaterialTheme.colorScheme.onTertiaryContainer
                                 )
                             }
+
                             Spacer(modifier = Modifier.width(16.dp))
                             Column {
                                 Text(
@@ -360,9 +384,19 @@ fun AnalyticsPage() {
         }
         items(5) { i ->
             ListItem(
-                headlineContent = { Text("Data Point $i", fontWeight = FontWeight.Bold) },
-                supportingContent = { Text("Analysis group $i details.") },
-                trailingContent = { Text("+${(i+1)*5}%", color = Color(0xFF4CAF50), fontWeight = FontWeight.Bold) },
+                headlineContent = {
+                    Text(
+                        "Data Point $i",
+                        fontWeight = FontWeight.Bold
+                    ) },
+                supportingContent = {
+                    Text("Analysis group $i details.") },
+                trailingContent = {
+                    Text(
+                        "+${(i+1)*5}%",
+                        color = Color(0xFF4CAF50),
+                        fontWeight = FontWeight.Bold
+                    ) },
                 leadingContent = {
                     Icon(
                         Icons.AutoMirrored.Filled.TrendingUp,
@@ -381,7 +415,12 @@ fun TasksPage() {
         items(10) { i ->
             OutlinedCard(shape = RoundedCornerShape(12.dp)) {
                 ListItem(
-                    headlineContent = { Text("Task #$i", fontWeight = FontWeight.Bold) },
+                    headlineContent = {
+                        Text(
+                            "Task #$i",
+                            fontWeight = FontWeight.Bold
+                        ) },
+
                     supportingContent = { Text("Due Tomorrow") },
                     leadingContent = { Checkbox(checked = i % 2 == 0, onCheckedChange = {}) }
                 )
@@ -395,7 +434,11 @@ fun MessagesPage() {
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         items(15) { i ->
             ListItem(
-                headlineContent = { Text("Contact $i", fontWeight = FontWeight.Bold) },
+                headlineContent = {
+                    Text(
+                        "Contact $i",
+                        fontWeight = FontWeight.Bold
+                    ) },
                 supportingContent = {
                     Text(
                         "Hey! How is Activity 10 going?",
@@ -431,7 +474,8 @@ fun SettingsPage() {
         )
         items(settings) { (icon, title, desc) ->
             ListItem(
-                headlineContent = { Text(title, fontWeight = FontWeight.Bold) },
+                headlineContent = {
+                    Text(title, fontWeight = FontWeight.Bold) },
                 supportingContent = { Text(desc) },
                 leadingContent = {
                     Icon(
