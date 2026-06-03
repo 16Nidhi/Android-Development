@@ -27,7 +27,11 @@ import kotlinx.coroutines.launch
 class ACTIVITY10 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { CSE225AndroidTheme { MainScreen() } }
+        setContent {
+            CSE225AndroidTheme{
+                MainScreen()
+            }
+        }
     }
 }
 
@@ -51,18 +55,44 @@ fun MainScreen() {
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet(Modifier.width(300.dp)) {
-                Box(Modifier.fillMaxWidth().height(200.dp).background(Brush.verticalGradient(listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.primaryContainer))).padding(24.dp), contentAlignment = Alignment.BottomStart) {
+                Box(
+                    Modifier.fillMaxWidth().height(200.dp)
+                        .background(
+                            Brush.verticalGradient(listOf(MaterialTheme.colorScheme.primary,
+                                MaterialTheme.colorScheme.primaryContainer))
+                        ).padding(24.dp),
+                    contentAlignment = Alignment.BottomStart
+                ) {
                     Column {
-                        Surface(Modifier.size(64.dp), CircleShape, MaterialTheme.colorScheme.surface.copy(0.9f)) {
-                            Icon(Icons.Default.Person, null, Modifier.padding(12.dp), MaterialTheme.colorScheme.primary)
+                        Surface(
+                            Modifier.size(64.dp),
+                            CircleShape,
+                            MaterialTheme.colorScheme.surface.copy(0.9f)
+                        ) {
+                            Icon(
+                                Icons.Default.Person,
+                                null,
+                                Modifier.padding(12.dp),
+                                MaterialTheme.colorScheme.primary
+                            )
                         }
-                        Text("CSE 225 Android", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = Color.White)
-                        Text("dev.android@cse225.edu", style = MaterialTheme.typography.bodySmall, color = Color.White.copy(0.8f))
+                        Text(
+                            "CSE 225 Android",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                        Text(
+                            "dev.android@cse225.edu",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.White.copy(0.8f)
+                        )
                     }
                 }
                 navItems.forEach { (label, icons) ->
                     NavigationDrawerItem(
-                        icon = { Icon(if (route == label) icons.first else icons.second, null) },
+                        icon = { Icon(if (route == label) icons.first else
+                            icons.second, null) },
                         label = { Text(label, fontWeight = FontWeight.Bold) },
                         selected = route == label,
                         onClick = { route = label; scope.launch { drawerState.close() } },
@@ -77,18 +107,34 @@ fun MainScreen() {
             Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
                 LargeTopAppBar(
-                    title = { Text(route, fontWeight = FontWeight.Black, letterSpacing = (-1).sp) },
-                    navigationIcon = { IconButton({ scope.launch { drawerState.open() } }) { Icon(Icons.Default.Menu, null) } },
+                    title = {
+                        Text(
+                            route,
+                            fontWeight = FontWeight.Black,
+                            letterSpacing = (-1).sp)
+                            },
+                    navigationIcon = {
+                        IconButton({ scope.launch { drawerState.open() } })
+                        { Icon(Icons.Default.Menu, null) } },
                     actions = {
-                        IconButton({}) { Icon(Icons.Default.Search, null) }
-                        IconButton({}) { BadgedBox({ Badge { Text("5") } }) { Icon(Icons.Default.Notifications, null) } }
+                        IconButton({})
+                        { Icon(Icons.Default.Search, null) }
+                        IconButton({})
+                        { BadgedBox({ Badge { Text("5") } })
+                        { Icon(Icons.Default.Notifications, null) } }
                     },
                     scrollBehavior = scrollBehavior
                 )
             },
             floatingActionButton = {
                 if (route == "Home" || route == "Tasks") {
-                    ExtendedFloatingActionButton(onClick = { }, icon = { Icon(Icons.Default.Add, null) }, text = { Text("New Action") })
+                    ExtendedFloatingActionButton(onClick = { },
+                        icon = {
+                            Icon(
+                                Icons.Default.Add,
+                                null)
+                               },
+                        text = { Text("New Action") })
                 }
             }
         ) { p ->
@@ -117,17 +163,37 @@ fun HomePage() {
     Column {
         TabRow(pagerState.currentPage) {
             tabs.forEachIndexed { i, t ->
-                Tab(pagerState.currentPage == i, { scope.launch { pagerState.animateScrollToPage(i) } }, text = { Text(t, fontWeight = FontWeight.Bold) })
+                Tab(pagerState.currentPage == i,
+                    { scope.launch { pagerState.animateScrollToPage(i) } },
+                    text = { Text(t, fontWeight = FontWeight.Bold) })
             }
         }
         HorizontalPager(pagerState) { _ ->
-            LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                item { Text("Dashboard Summary", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
+            LazyColumn(
+                Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                item {
+                    Text(
+                        "Dashboard Summary",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold
+                    ) }
                 item {
                     LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         items(4) { i ->
-                            Card(Modifier.size(140.dp, 80.dp), RoundedCornerShape(16.dp), CardDefaults.cardColors(if (i % 2 == 0) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.secondaryContainer)) {
-                                Box(Modifier.fillMaxSize(), Alignment.Center) { Text("Metric $i", fontWeight = FontWeight.Black) }
+                            Card(
+                                Modifier.size(140.dp, 80.dp),
+                                RoundedCornerShape(16.dp),
+                                CardDefaults.cardColors(if (i % 2 == 0)
+                                    MaterialTheme.colorScheme.primaryContainer else
+                                        MaterialTheme.colorScheme.secondaryContainer)
+                            ) {
+                                Box(
+                                    Modifier.fillMaxSize(),
+                                    Alignment.Center)
+                                { Text("Metric $i", fontWeight = FontWeight.Black) }
                             }
                         }
                     }
@@ -135,9 +201,22 @@ fun HomePage() {
                 items(10) { i ->
                     ElevatedCard(Modifier.fillMaxWidth(), RoundedCornerShape(16.dp)) {
                         ListItem(
-                            headlineContent = { Text("Feed Item $i", fontWeight = FontWeight.Bold) },
-                            supportingContent = { Text("Description for item $i") },
-                            leadingContent = { Surface(Modifier.size(40.dp), CircleShape, MaterialTheme.colorScheme.tertiaryContainer) { Icon(Icons.Default.Star, null, Modifier.padding(8.dp)) } }
+                            headlineContent = {
+                                Text(
+                                    "Feed Item $i",
+                                    fontWeight = FontWeight.Bold
+                                ) },
+                            supportingContent = {
+                                Text("Description for item $i") },
+                            leadingContent = {
+                                Surface(
+                                    Modifier.size(40.dp),
+                                    CircleShape,
+                                    MaterialTheme.colorScheme.tertiaryContainer)
+                                { Icon(
+                                    Icons.Default.Star,
+                                    null, Modifier.padding(8.dp))
+                                } }
                         )
                     }
                 }
@@ -148,13 +227,29 @@ fun HomePage() {
 
 @Composable
 fun GenericListPage(title: String) {
-    LazyColumn(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        item { Text(title, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Black) }
+    LazyColumn(
+        Modifier.fillMaxSize().padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        item {
+            Text(
+                title,
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Black
+            ) }
         items(12) { i ->
             ListItem(
-                headlineContent = { Text("$title Item $i", fontWeight = FontWeight.Bold) },
+                headlineContent = {
+                    Text(
+                        "$title Item $i",
+                        fontWeight = FontWeight.Bold
+                    ) },
                 supportingContent = { Text("Details for $title entry $i") },
-                leadingContent = { Icon(Icons.Default.Info, null) },
+                leadingContent = {
+                    Icon(
+                        Icons.Default.Info,
+                        null)
+                                 },
                 modifier = Modifier.clickable { }
             )
             HorizontalDivider()
@@ -165,8 +260,16 @@ fun GenericListPage(title: String) {
 @Composable
 fun PlaceholderPage(n: String) = Box(Modifier.fillMaxSize(), Alignment.Center) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Icon(Icons.Default.Construction, null, Modifier.size(80.dp), MaterialTheme.colorScheme.primary.copy(0.5f))
-        Text(n, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Black)
+        Icon(
+            Icons.Default.Construction,
+            null, Modifier.size(80.dp),
+            MaterialTheme.colorScheme.primary.copy(0.5f)
+        )
+        Text(
+            n,
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Black
+        )
         Text("Coming Soon")
     }
 }
